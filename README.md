@@ -1,4 +1,4 @@
-Project name: Lupin
+# Project name: Lupin
 Sastav tima : Hana Zadravec, Matija Kelemenić
 Fakultet Informatike u Puli (https://fipu.unipu.hr/)
 Kolegij: Programsko inženjerstvo (https://www.notion.so/fiputreca/Programsko-in-enjerstvo-e353945331df468e8382cdad1e91c4b8)
