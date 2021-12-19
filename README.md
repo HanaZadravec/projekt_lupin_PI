@@ -5,7 +5,7 @@ Kolegij: Programsko inženjerstvo (https://www.notion.so/fiputreca/Programsko-in
 Mentor: doc. dr. sc. Nikola Tanković (https://www.notion.so/fiputreca/Kontakt-stranica-875574d1b92248b1a8e90dae52cd29a9)
 
 
-Funkcionalnost
+### Funkcionalnost
   Online shop Lupin je platforma koja omogučuje svojim korisnicima kupnju i prodaju rijetkih stvari kao što su: autogrami, slike, karte, skulpture... Potrebno je kreirati račun gdje možete odabrati opciju buyer ili seller . Kao buyer imate mogućnost pregleda svih trenutno aktivnih predmeta za kupnju, složeni su po kategorijama za lakšu preferencu. Nakon odabira željenog predmeta uz detaljan opis i sliku prikaže Vam se vrijeme isteka kupnje proizvoda i trenutačne ponude te imate dvije opcije:
 
   "Bid" - opcija koja Vam omogučuje davanju nove, veće ponude
