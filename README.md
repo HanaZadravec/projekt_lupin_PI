@@ -8,7 +8,7 @@ Mentor: doc. dr. sc. Nikola Tanković (https://www.notion.so/fiputreca/Kontakt-s
 ### Funkcionalnost
   Online shop Lupin je platforma koja omogučuje svojim korisnicima kupnju i prodaju rijetkih stvari kao što su: autogrami, slike, karte, skulpture... Potrebno je kreirati račun gdje možete odabrati opciju buyer ili seller . Kao buyer imate mogućnost pregleda svih trenutno aktivnih predmeta za kupnju, složeni su po kategorijama za lakšu preferencu. Nakon odabira željenog predmeta uz detaljan opis i sliku prikaže Vam se vrijeme isteka kupnje proizvoda i trenutačne ponude te imate dvije opcije:
 
-  "Bid" - opcija koja Vam omogučuje davanju nove, veće ponude
+  "Bid" - opcija koja Vam omogučuje davanju nove, veće ponude <br />
   "Kupi odmah" - opcija koja Vam omogućuje izravnu kupnju predmeta neovisno o vremenu
 
 
