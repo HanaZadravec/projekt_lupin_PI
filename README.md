@@ -8,7 +8,7 @@ Mentor: doc. dr. sc. Nikola Tanković (https://www.notion.so/fiputreca/Kontakt-s
 ### Funkcionalnost
   Online shop Lupin je platforma koja omogučuje svojim korisnicima kupnju i prodaju rijetkih stvari kao što su: autogrami, slike, karte, skulpture... Potrebno je kreirati račun gdje možete odabrati opciju buyer ili seller . Kao buyer imate mogućnost pregleda svih trenutno aktivnih predmeta za kupnju, složeni su po kategorijama za lakšu preferencu. Nakon odabira željenog predmeta uz detaljan opis i sliku prikaže Vam se vrijeme isteka kupnje proizvoda i trenutačne ponude te imate dvije opcije:
 
-  "Bid" - opcija koja Vam omogučuje davanju nove, veće ponude
+  "Bid" - opcija koja Vam omogučuje davanju nove, veće ponude <br />
   "Kupi odmah" - opcija koja Vam omogućuje izravnu kupnju predmeta neovisno o vremenu
 
 
@@ -16,7 +16,7 @@ Cijenu opcije "Kupi odmah" određuje sam prodavač i ističe ako se opcije "Bid"
 
 Javni prototip(figma)-https://www.figma.com/proto/whBqffRxkVeVGNTFqtrEPA/Lupin?page-id=0%3A1&node-id=112%3A5772&viewport=241%2C48%2C0.03&scaling=min-zoom&starting-point-node-id=112%3A5772
 
-Hana Zadravec - napravit će dio za buyera, video koji predstavlja aplikaciju
+Hana Zadravec - napravit će dio za buyera, video koji predstavlja aplikaciju <br />
 Matija Kelemić - napravit će dio za sellera i administratora
 
 Dokumentaciju ćemo napraviti zajedno te također ako jedan od nas zapne zajedno ćemo probati riješiti problem
