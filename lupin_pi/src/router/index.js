@@ -83,7 +83,7 @@ const routes = [
     name: "Products signed by celebrities",
     component: () =>
       import(
-        /* webpackChunkName: "products signed by celebrities" */ "../views/Products signed by celebrities.vue"
+        /* webpackChunkName: "products signed by celebrities" */ "../views/Productssignedbycelebrities.vue"
       ),
     meta: {
       needsUser: true,
@@ -200,7 +200,7 @@ const routes = [
     path: "/login",
     name: "Login",
     component: () =>
-      import(/* webpackChunkName: "updatepersonal" */ "../views/login.vue"),
+      import(/* webpackChunkName: "login" */ "../views/login.vue"),
     meta: {
       needsUser: false,
     },
@@ -209,7 +209,7 @@ const routes = [
     path: "/signup",
     name: "Signup",
     component: () =>
-      import(/* webpackChunkName: "updatepersonal" */ "../views/signup.vue"),
+      import(/* webpackChunkName: "signup" */ "../views/signup.vue"),
     meta: {
       needsUser: false,
     },
