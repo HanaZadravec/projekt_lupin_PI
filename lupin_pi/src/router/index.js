@@ -171,6 +171,9 @@ const routes = [
     name: "Forgot password",
     component: () =>
       import(/* webpackChunkName: "forgotpass" */ "../views/forgotpass.vue"),
+    meta: {
+      needsUser: true,
+    },
   },
   {
     path: "/myaddresses",
@@ -198,12 +201,18 @@ const routes = [
     name: "Login",
     component: () =>
       import(/* webpackChunkName: "updatepersonal" */ "../views/login.vue"),
+    meta: {
+      needsUser: false,
+    },
   },
   {
     path: "/signup",
     name: "Signup",
     component: () =>
       import(/* webpackChunkName: "updatepersonal" */ "../views/signup.vue"),
+    meta: {
+      needsUser: false,
+    },
   },
 ];
 

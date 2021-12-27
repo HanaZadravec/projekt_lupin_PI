@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import firebase from "@/firebase.js";
+import { firebase } from "@/firebase.js";
 import store from "@/store.js";
 import router from "@/router";
 
