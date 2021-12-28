@@ -20,15 +20,12 @@
       >
         <div class="col-md-4 col-4">
           <h2>About Us</h2>
-          <a href="#">Blog</a> <br />
-          <a href="#">Demo</a><br />
-          <a href="#">Customers</a> <br />
-          <a href="#">Investors</a> <br />
-          <a href="#">Terms of Service</a>
+          <a href="/ourstory">Our story</a> <br />
+          <a href="/ourteam">Our team</a> <br />
+          <a href="/termsofservice">Terms of service</a> <br />
         </div>
         <div class="col-md-4 col-4">
           <h2>Contact Us</h2>
-          <a href="#">Jobs</a> <br />
           <a href="#">Support</a> <br />
           <a href="#">Contact</a> <br />
           <a href="#">Sponsorships</a>

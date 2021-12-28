@@ -214,6 +214,35 @@ const routes = [
       needsUser: false,
     },
   },
+  {
+    path: "/ourstory",
+    name: "Our story",
+    component: () =>
+      import(/* webpackChunkName: "Our story" */ "../views/ourstory.vue"),
+    meta: {
+      needsUser: true,
+    },
+  },
+  {
+    path: "/ourteam",
+    name: "Our team",
+    component: () =>
+      import(/* webpackChunkName: "Our team" */ "../views/ourteam.vue"),
+    meta: {
+      needsUser: true,
+    },
+  },
+  {
+    path: "/termsofservice",
+    name: "Terms of service",
+    component: () =>
+      import(
+        /* webpackChunkName: "Terms of service" */ "../views/termsofservice.vue"
+      ),
+    meta: {
+      needsUser: true,
+    },
+  },
 ];
 
 const router = new VueRouter({
