@@ -86,7 +86,7 @@ export default {
     };
   },
   mounted() {
-    return setInterval(this.countDown, 1000);
+    setInterval(this.countDown, 1000);
   },
   methods: {
     countDown() {

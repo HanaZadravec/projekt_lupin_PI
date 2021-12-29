@@ -3,9 +3,9 @@
     <div class="card">
       <img :src="slika.url" class="card-img-top" style="margin: auto" />
       <div class="card-body">
-        <h6 class="card-title">{{ slika.naziv }}</h6>
-        <p class="card-text">{{ slika.proizvodac }}</p>
-        <p>{{ slika.cijena }}</p>
+        <h6 class="card-title">{{ slika.description }}</h6>
+        <p class="card-text">{{ slika.manufacturer }}</p>
+        <p>{{ slika.price }}</p>
       </div>
     </div>
   </div>

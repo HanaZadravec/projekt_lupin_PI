@@ -14,15 +14,17 @@
           >
             <b>Cards</b>
           </h1>
-          <form @submit.prevent="postNew()" class="form-inline mb-5">
-            <label for="newImageUrl">Image URL:</label>
-            <input
-              v-model="newImageUrl"
-              class="form-control me-2"
-              type="text"
-              id="newImageUrl"
-              style="margin-top: 5px"
-            />
+          <form
+            v-if="!loading"
+            @submit.prevent="postNew()"
+            class="form-inline mb-5"
+          >
+            <croppa
+              :width="250"
+              :height="250"
+              v-model="imageReference"
+              placeholder="upload image"
+            ></croppa>
             <label for="newnaziv">Naziv</label>
             <input
               v-model="newnaziv"
@@ -55,6 +57,11 @@
               Post
             </button>
           </form>
+          <img
+            class="loading center"
+            v-if="loading"
+            :src="require('@/assets/loading.gif')"
+          />
         </div>
       </div>
     </div>
@@ -62,11 +69,7 @@
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-12 col-12">
-          <card
-            v-for="karte in filteredCards"
-            :key="karte.url"
-            :slika="karte"
-          />
+          <card v-for="karte in filteredCards" :key="karte.id" :slika="karte" />
           <div class="col-md-3">
             <div class="col-md-4 tag-container"></div>
           </div>
@@ -84,7 +87,7 @@
   object-fit: contain;
 }
 .card {
-  height: calc(100vh / 1.7);
+  height: calc(100vh / 2.1);
 }
 </style>
 
@@ -94,28 +97,7 @@ import navbarbuyer from "@/components/navbarbuyer.vue";
 import footerapp from "@/components/footerapp.vue";
 import card from "@/components/card.vue";
 import store from "@/store.js";
-import { db } from "@/firebase.js";
-
-/* proizvod = [
-  {
-    url: "https://picsum.photos/id/2/400/400",
-    naziv: "Mickey Mantle 1952",
-    cijena: "5.2 mil $",
-    proizvodac: "Topps",
-  },
-  {
-    url: "https://picsum.photos/id/1/400/400",
-    naziv: "Luka Doncic 2018/19 Logoman 1/1",
-    cijena: "4.6 mil $",
-    proizvodac: "Panini",
-  },
-  {
-    url: "https://picsum.photos/id/3/400/400",
-    naziv: "Giannis Antetokounmpo 2013/2014",
-    cijena: "1.8 mil $",
-    proizvodac: "Panini",
-  },
-];*/
+import { db, storage } from "@/firebase.js";
 
 export default {
   name: "Cards",
@@ -127,6 +109,8 @@ export default {
       newnaziv: "",
       newproizvodac: "",
       newcijena: "",
+      imageReference: null,
+      loading: false,
     };
   },
   mounted() {
@@ -135,30 +119,62 @@ export default {
   methods: {
     getPosts() {
       console.log("firebase dohvat");
-    },
-    postNew() {
-      const imageUrl = this.newImageUrl;
-      const imagenaziv = this.newnaziv;
-      const imageproizvodac = this.newproizvodac;
-      const imagecijena = this.newcijena;
+
       db.collection("proizvodi")
-        .add({
-          url: imageUrl,
+        .orderBy("posted_at", "desc")
+        .get()
+        .then((query) => {
+          this.proizvod = [];
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.proizvod.push({
+              id: doc.id,
+              description: data.desc,
+              email: data.email,
+              manufacturer: data.manufacturer,
+              price: data.price,
+              url: data.url,
+              time: data.posted_at,
+            });
+          });
+        });
+    },
+    getImage() {
+      // Promise based, omotač oko callbacka
+      return new Promise((resolveFn, errorFn) => {
+        this.imageReference.generateBlob((data) => {
+          resolveFn(data);
+        });
+      });
+    },
+    async postNew() {
+      try {
+        this.loading = true;
+        let blobData = await this.getImage();
+        let imageName =
+          "posts/" + store.currentUser + "/" + Date.now() + ".png";
+        let result = await storage.ref(imageName).put(blobData);
+        let url = await result.ref.getDownloadURL(); // Promise
+
+        const imagenaziv = this.newnaziv;
+        const imageproizvodac = this.newproizvodac;
+        const imagecijena = this.newcijena;
+        let doc = await db.collection("proizvodi").add({
+          url: url,
           desc: imagenaziv,
           manufacturer: imageproizvodac,
           price: imagecijena,
           email: store.currentUser,
-        })
-        .then((doc) => {
-          console.log("Spremljeno", doc);
-          this.newImageUrl = "";
-          this.newnaziv = "";
-          this.newproizvodac = "";
-          this.newcijena = "";
-        })
-        .catch((error) => {
-          console.error("Greska", error);
+          posted_at: Date.now(),
         });
+        console.log("Spremljeno", doc);
+
+        this.getPosts();
+      } catch (e) {
+        console.error("Greška", e);
+      }
+      this.loading = false;
     },
   },
   computed: {
@@ -167,8 +183,8 @@ export default {
       let newCards = [];
       for (let karte of this.proizvod) {
         if (
-          karte.naziv.toLowerCase().indexOf(termin.toLowerCase()) >= 0 ||
-          karte.proizvodac.toLowerCase().indexOf(termin.toLowerCase()) >= 0
+          karte.description.toLowerCase().indexOf(termin.toLowerCase()) >= 0 ||
+          karte.manufacturer.toLowerCase().indexOf(termin.toLowerCase()) >= 0
         ) {
           newCards.push(karte);
         }
@@ -184,3 +200,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.loading {
+  width: 400px;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
