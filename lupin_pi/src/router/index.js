@@ -243,6 +243,24 @@ const routes = [
       needsUser: true,
     },
   },
+  {
+    path: "/contact",
+    name: "Contact",
+    component: () =>
+      import(/* webpackChunkName: "Contact" */ "../views/contact.vue"),
+    meta: {
+      needsUser: true,
+    },
+  },
+  {
+    path: "/sponsors",
+    name: "Sponsors",
+    component: () =>
+      import(/* webpackChunkName: "Sponsors" */ "../views/sponsors.vue"),
+    meta: {
+      needsUser: true,
+    },
+  },
 ];
 
 const router = new VueRouter({

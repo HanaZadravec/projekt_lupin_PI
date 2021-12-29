@@ -26,9 +26,8 @@
         </div>
         <div class="col-md-4 col-4">
           <h2>Contact Us</h2>
-          <a href="#">Support</a> <br />
-          <a href="#">Contact</a> <br />
-          <a href="#">Sponsorships</a>
+          <a href="/contact">Contact</a> <br />
+          <a href="/sponsors">Sponsors</a>
         </div>
         <div class="col-md-4 col-4">
           <h2>Social Media</h2>
