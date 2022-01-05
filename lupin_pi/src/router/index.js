@@ -261,15 +261,6 @@ const routes = [
       needsUser: true,
     },
   },
-  {
-    path: "/timer",
-    name: "Timer",
-    component: () =>
-      import(/* webpackChunkName: "Sponsors" */ "../views/timer.vue"),
-    meta: {
-      needsUser: true,
-    },
-  },
 ];
 
 const router = new VueRouter({
