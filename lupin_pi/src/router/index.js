@@ -172,7 +172,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "forgotpass" */ "../views/forgotpass.vue"),
     meta: {
-      needsUser: true,
+      needsUser: false,
     },
   },
   {
@@ -257,6 +257,15 @@ const routes = [
     name: "Sponsors",
     component: () =>
       import(/* webpackChunkName: "Sponsors" */ "../views/sponsors.vue"),
+    meta: {
+      needsUser: true,
+    },
+  },
+  {
+    path: "/timer",
+    name: "Timer",
+    component: () =>
+      import(/* webpackChunkName: "Sponsors" */ "../views/timer.vue"),
     meta: {
       needsUser: true,
     },

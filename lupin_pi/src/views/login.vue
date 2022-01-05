@@ -77,7 +77,7 @@
             </button>
             <button
               class="btn btn-outline-dark center"
-              type="submit"
+              type="button"
               style="height: 40px; margin-top: 5px; width: 30%"
             >
               <i class="fab fa-facebook-square" style="font-size: 22px"></i>

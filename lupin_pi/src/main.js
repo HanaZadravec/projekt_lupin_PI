@@ -3,6 +3,9 @@ import App from "./App.vue";
 import router from "./router";
 import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
+import "vue-search-select/dist/VueSearchSelect.css";
+import VueCountdownTimer from "vuejs-countdown-timer";
+Vue.use(VueCountdownTimer);
 Vue.config.productionTip = false;
 Vue.use(Croppa);
 new Vue({

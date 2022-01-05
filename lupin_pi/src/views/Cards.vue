@@ -49,6 +49,14 @@
               id="newcijena"
               style="margin-top: 5px"
             />
+            <label for="duedate">Due date</label>
+            <input
+              v-model="duedate"
+              class="form-control me-2"
+              type="text"
+              id="duedate"
+              style="margin-top: 5px"
+            />
             <button
               class="btn btn-outline-dark center"
               type="submit"
@@ -69,13 +77,15 @@
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-12 col-12">
-          <card v-for="karte in filteredCards" :key="karte.id" :slika="karte" />
+          <card v-for="karte in proizvod" :key="karte.id" :slika="karte" />
+
           <div class="col-md-3">
             <div class="col-md-4 tag-container"></div>
           </div>
         </div>
       </div>
     </div>
+
     <footerapp />
   </div>
 </template>
@@ -87,7 +97,7 @@
   object-fit: contain;
 }
 .card {
-  height: calc(100vh / 2.1);
+  height: calc(100vh / 2);
 }
 </style>
 
@@ -101,7 +111,7 @@ import { db, storage } from "@/firebase.js";
 
 export default {
   name: "Cards",
-  data: function () {
+  data() {
     return {
       proizvod: [],
       store,
@@ -109,8 +119,10 @@ export default {
       newnaziv: "",
       newproizvodac: "",
       newcijena: "",
+      duedate: "",
       imageReference: null,
       loading: false,
+      loaded: false,
     };
   },
   mounted() {
@@ -136,12 +148,13 @@ export default {
               price: data.price,
               url: data.url,
               time: data.posted_at,
+              date: data.date,
             });
           });
         });
     },
+
     getImage() {
-      // Promise based, omotač oko callbacka
       return new Promise((resolveFn, errorFn) => {
         this.imageReference.generateBlob((data) => {
           resolveFn(data);
@@ -160,6 +173,7 @@ export default {
         const imagenaziv = this.newnaziv;
         const imageproizvodac = this.newproizvodac;
         const imagecijena = this.newcijena;
+
         let doc = await db.collection("proizvodi").add({
           url: url,
           desc: imagenaziv,
@@ -167,6 +181,7 @@ export default {
           price: imagecijena,
           email: store.currentUser,
           posted_at: Date.now(),
+          date: new Date(this.duedate).getTime(),
         });
         console.log("Spremljeno", doc);
 
