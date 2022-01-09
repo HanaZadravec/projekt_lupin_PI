@@ -132,16 +132,31 @@ export default {
   },
   methods: {
     signup() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .then(function () {
-          console.log("uspjesna registracija");
-        })
-        .catch(function (e) {
-          console.error("doslo je do greske", e);
-        });
-      console.log("nastavak");
+      if (this.password === this.confirmpass) {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.email, this.password)
+          .then(function () {
+            console.log("uspjesna registracija");
+          })
+          .catch(function (e) {
+            console.error("doslo je do greske", e);
+          });
+        console.log("nastavak");
+      } else {
+        alert("Passwords are not the same");
+      }
+      if (
+        this.email === "" ||
+        this.name === "" ||
+        this.surname === "" ||
+        this.selected === "" ||
+        this.password === "" ||
+        this.confirmpass === "" ||
+        this.username === ""
+      ) {
+        alert("You didn't fill out everything");
+      }
     },
   },
 };

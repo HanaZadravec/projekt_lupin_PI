@@ -77,7 +77,7 @@
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-12 col-12">
-          <card v-for="karte in proizvod" :key="karte.id" :slika="karte" />
+          <card v-for="karte in filteredCards" :key="karte.id" :slika="karte" />
 
           <div class="col-md-3">
             <div class="col-md-4 tag-container"></div>
@@ -97,7 +97,7 @@
   object-fit: contain;
 }
 .card {
-  height: calc(100vh / 2);
+  height: calc(100vh / 1);
 }
 </style>
 
@@ -122,7 +122,6 @@ export default {
       duedate: "",
       imageReference: null,
       loading: false,
-      loaded: false,
     };
   },
   mounted() {

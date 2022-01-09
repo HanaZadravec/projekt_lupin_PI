@@ -17,7 +17,16 @@
             Welcome to Lupin
           </h1>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" style="margin-top: 30px">
+          <h1
+            style="
+              text-align: center;
+              text-shadow: 6px 6px 8px #a0a0a0;
+              font-family: Papyrus Copperplate Fantasy;
+            "
+          >
+            Login
+          </h1>
           <form style="margin-top: 15px">
             <div class="form-group">
               <label for="email_login" class="center">Email:</label>
@@ -47,11 +56,11 @@
               @click="login()"
               class="btn btn-outline-dark center"
               type="button"
-              style="height: 40px; margin-top: 5px; width: 70px"
+              style="height: 40px; margin-top: 25px; width: 70px"
             >
               Login
             </button>
-            <p style="text-align: center; font-size: 22px; margin-top: 10px">
+            <p style="text-align: center; font-size: 22px; margin-top: 15px">
               Don´t have an account?
               <b
                 ><i
@@ -65,24 +74,6 @@
                 ></b
               >
             </p>
-            <p style="text-align: center; font-size: 30px">
-              --------or--------
-            </p>
-            <button
-              class="btn btn-outline-dark center"
-              type="submit"
-              style="height: 40px; margin-top: 5px; width: 30%"
-            >
-              <i class="fab fa-google"></i> Google
-            </button>
-            <button
-              class="btn btn-outline-dark center"
-              type="button"
-              style="height: 40px; margin-top: 5px; width: 30%"
-            >
-              <i class="fab fa-facebook-square" style="font-size: 22px"></i>
-              Facebook
-            </button>
           </form>
           <div style="margin-top: 20px">
             <a
@@ -101,7 +92,9 @@
         </div>
       </div>
     </div>
-    <div class="slika_centrirano"><img src="@/assets/logo.jpg" /></div>
+    <div class="slika_centrirano">
+      <img src="@/assets/logo.jpg" style="margin-top: 17px" />
+    </div>
   </div>
 </template>
 
