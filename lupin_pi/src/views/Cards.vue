@@ -77,7 +77,14 @@
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-12 col-12">
-          <card v-for="karte in filteredCards" :key="karte.id" :slika="karte" />
+          <card
+            v-for="karte in filteredCards"
+            :key="karte.id"
+            :slika="karte"
+            @alert="sayHi"
+            v-on:cijena="sayHi($event)"
+            v-on:id="sayby($event)"
+          />
 
           <div class="col-md-3">
             <div class="col-md-4 tag-container"></div>
@@ -114,6 +121,7 @@ export default {
   data() {
     return {
       proizvod: [],
+      offers: [],
       store,
       newImageUrl: "",
       newnaziv: "",
@@ -122,6 +130,8 @@ export default {
       duedate: "",
       imageReference: null,
       loading: false,
+      fromChild: "",
+      id: "",
     };
   },
   mounted() {
@@ -190,6 +200,46 @@ export default {
       }
       this.loading = false;
     },
+    async sayHi(value) {
+      try {
+        let doc = await db
+          .collection("proizvodi")
+          .doc(this.sayby(value))
+          .collection("offers")
+          .add({
+            user: store.currentUser,
+            offer: value,
+          });
+        console.log("Spremljeno", doc);
+
+        this.getOffers();
+      } catch (e) {
+        console.error("Greška", e);
+      }
+      console.log(value);
+      console.log("Hi");
+    },
+    getOffers() {
+      console.log("firebase dohvat");
+      db.collection("proizvodi")
+        .doc(this.sayby(value))
+        .collection("offers")
+        .get()
+        .then((query) => {
+          this.offers = [];
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.offers.push({
+              offer: data.offer,
+              email: data.email,
+            });
+          });
+        });
+    },
+    sayby(id) {
+      console.log(id);
+    },
   },
   computed: {
     filteredCards() {
@@ -207,6 +257,7 @@ export default {
       return newCards;
     },
   },
+
   components: {
     navbarbuyer,
     footerapp,

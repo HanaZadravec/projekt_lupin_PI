@@ -35,7 +35,7 @@
               {{ slika.price }}
             </div>
             <button
-              @click="brisanje"
+              @click="doSomething"
               class="btn btn-outline-dark w-70"
               type="button"
               style="height: 40px; margin-top: 15px"
@@ -53,7 +53,7 @@
                 min="1"
               />
               <button
-                @click="dodavanjecijene"
+                @click="checkbox"
                 class="btn btn-outline-dark center w-70"
                 type="button"
                 style="height: 40px; margin-top: 15px"
@@ -80,94 +80,21 @@
 </template>
 
 <script>
-import { db } from "@/firebase.js";
 export default {
   props: ["slika"],
   name: "card",
   data() {
     return {
-      cijena: null,
-      bidd: [],
-      fullbidd: [],
-      buynow: this.slika.price,
-      product: this.slika.description,
-      product_id: this.slika.id,
-      useremail: this.slika.email,
+      cijena: "",
     };
   },
   methods: {
-    async dodavanjecijene() {
-      try {
-        const buyNow = this.buynow;
-        const proizvod = this.product;
-        const id = this.product_id;
-        const user = this.useremail;
-        const bidd = this.cijena;
-        var max = Math.max.apply(
-          null,
-          this.bidd.map(function (item) {
-            return item.offer;
-          })
-        );
-        if (this.cijena > this.slika.price && this.cijena > max) {
-          let doc = await db.collection("offers").add({
-            id: id,
-            buynowprice: buyNow,
-            offer: bidd,
-            user: user,
-            product: proizvod,
-          });
-
-          console.log("Spremljeno", doc);
-          this.getoffers();
-        } else {
-          console.log("premali offer");
-        }
-      } catch (e) {
-        console.error("Greška", e);
-      }
+    doSomething() {
+      this.$emit("alert");
     },
-    getoffers() {
-      console.log(this.bidd);
-
-      db.collection("offers")
-        .get()
-        .then((query) => {
-          query.forEach((doc) => {
-            if (this.cijena > this.slika.price && this.cijena > max) {
-              const data = doc.data();
-
-              this.bidd.push({
-                id: doc.id,
-                user: data.user,
-                buyNow: data.buynowprice,
-                offer: data.offer,
-                product: data.product,
-              });
-            } else {
-              console.log("premala ponuda");
-            }
-          });
-        });
-
-      var max = Math.max.apply(
-        null,
-        this.bidd.map(function (item) {
-          return item.offer;
-        })
-      );
-
-      console.log("max", max);
-    },
-    brisanje() {
-      let groupBy = (array, key) => {
-        return array.reduce((result, obj) => {
-          (result[obj[key]] = result[obj[key]] || []).push(obj);
-          return result;
-        }, {});
-      };
-      let a = groupBy(this.bidd, "product_id");
-      console.log(a);
+    checkbox() {
+      this.$emit("cijena", this.cijena);
+      this.$emit("id", this.slika.id);
     },
   },
 };
