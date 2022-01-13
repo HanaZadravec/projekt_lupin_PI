@@ -10,6 +10,11 @@
             </h6>
             <p class="card-text">{{ slika.manufacturer }}</p>
             <p>{{ slika.price }}</p>
+            <p>Pocetni bidd : {{ slika.startingbidd }}</p>
+            <p class="card-text" v-for="data in this.offers" :key="data.id">
+              <b>{{ data.offer }} $</b>
+              {{ data.email }}
+            </p>
           </div>
           <div class="col-md-6">
             <span style="font-size: 130%; margin-right: 15px"
@@ -35,7 +40,6 @@
               {{ slika.price }}
             </div>
             <button
-              @click="doSomething"
               class="btn btn-outline-dark w-70"
               type="button"
               style="height: 40px; margin-top: 15px"
@@ -53,7 +57,7 @@
                 min="1"
               />
               <button
-                @click="checkbox"
+                @click="postOffer()"
                 class="btn btn-outline-dark center w-70"
                 type="button"
                 style="height: 40px; margin-top: 15px"
@@ -80,22 +84,81 @@
 </template>
 
 <script>
+import { db } from "@/firebase.js";
+import store from "@/store.js";
 export default {
   props: ["slika"],
   name: "card",
   data() {
     return {
       cijena: "",
+      offers: [],
+      maxbidd: "",
     };
   },
   methods: {
-    doSomething() {
-      this.$emit("alert");
+    async postOffer() {
+      for (let i = 0; i < this.offers.length; i++) {
+        this.maxbidd = this.offers[0].offer;
+        if (this.maxbidd < this.offers[i].offer) {
+          this.maxbidd = this.offers[i].offer;
+        }
+        console.log(this.maxbidd);
+      }
+      try {
+        if (
+          this.cijena > this.slika.startingbidd &&
+          this.cijena > this.maxbidd
+        ) {
+          let doc = await db
+            .collection("proizvodi")
+            .doc(this.slika.id)
+            .collection("offers")
+            .add({
+              user: store.currentUser,
+              offer: this.cijena,
+            });
+          console.log("Spremljeno", doc);
+
+          this.getOffers();
+        } else {
+          console.log("premali offer");
+        }
+      } catch (e) {
+        console.error("Greška", e);
+      }
+
+      this.cijena = "";
     },
-    checkbox() {
-      this.$emit("cijena", this.cijena);
-      this.$emit("id", this.slika.id);
+    getOffers() {
+      db.collection("proizvodi")
+        .doc(this.slika.id)
+        .collection("offers")
+        .orderBy("offer", "desc")
+        .limit(1)
+        .get()
+        .then((query) => {
+          this.offers = [];
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.offers.push({
+              offer: data.offer,
+              email: data.user,
+            });
+          });
+        });
+      for (let i = 0; i < this.offers.length; i++) {
+        this.maxbidd = this.offers[0].offer;
+        if (this.maxbidd < this.offers[i].offer) {
+          this.maxbidd = this.offers[i].offer;
+        }
+        console.log(this.maxbidd);
+      }
     },
+  },
+  mounted() {
+    this.getOffers();
   },
 };
 </script>

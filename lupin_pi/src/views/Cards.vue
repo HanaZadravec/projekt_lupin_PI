@@ -45,7 +45,7 @@
             <input
               v-model="newcijena"
               class="form-control me-2"
-              type="text"
+              type="number"
               id="newcijena"
               style="margin-top: 5px"
             />
@@ -54,6 +54,14 @@
               v-model="duedate"
               class="form-control me-2"
               type="text"
+              id="duedate"
+              style="margin-top: 5px"
+            />
+            <label for="duedate">Starting bid</label>
+            <input
+              v-model="starting"
+              class="form-control me-2"
+              type="number"
               id="duedate"
               style="margin-top: 5px"
             />
@@ -77,14 +85,7 @@
       <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-12 col-12">
-          <card
-            v-for="karte in filteredCards"
-            :key="karte.id"
-            :slika="karte"
-            @alert="sayHi"
-            v-on:cijena="sayHi($event)"
-            v-on:id="sayby($event)"
-          />
+          <card v-for="karte in filteredCards" :key="karte.id" :slika="karte" />
 
           <div class="col-md-3">
             <div class="col-md-4 tag-container"></div>
@@ -121,17 +122,16 @@ export default {
   data() {
     return {
       proizvod: [],
-      offers: [],
+
       store,
       newImageUrl: "",
       newnaziv: "",
       newproizvodac: "",
       newcijena: "",
       duedate: "",
+      starting: "",
       imageReference: null,
       loading: false,
-      fromChild: "",
-      id: "",
     };
   },
   mounted() {
@@ -155,6 +155,7 @@ export default {
               email: data.email,
               manufacturer: data.manufacturer,
               price: data.price,
+              startingbidd: data.startingbidd,
               url: data.url,
               time: data.posted_at,
               date: data.date,
@@ -182,12 +183,14 @@ export default {
         const imagenaziv = this.newnaziv;
         const imageproizvodac = this.newproizvodac;
         const imagecijena = this.newcijena;
+        const startingbidd = this.starting;
 
         let doc = await db.collection("proizvodi").add({
           url: url,
           desc: imagenaziv,
           manufacturer: imageproizvodac,
           price: imagecijena,
+          startingbidd: startingbidd,
           email: store.currentUser,
           posted_at: Date.now(),
           date: new Date(this.duedate).getTime(),
@@ -198,47 +201,13 @@ export default {
       } catch (e) {
         console.error("Greška", e);
       }
+      this.newImageUrl = "";
+      this.newnaziv = "";
+      this.newproizvodac = "";
+      this.newcijena = "";
+      this.duedate = "";
       this.loading = false;
-    },
-    async sayHi(value) {
-      try {
-        let doc = await db
-          .collection("proizvodi")
-          .doc(this.sayby(value))
-          .collection("offers")
-          .add({
-            user: store.currentUser,
-            offer: value,
-          });
-        console.log("Spremljeno", doc);
-
-        this.getOffers();
-      } catch (e) {
-        console.error("Greška", e);
-      }
-      console.log(value);
-      console.log("Hi");
-    },
-    getOffers() {
-      console.log("firebase dohvat");
-      db.collection("proizvodi")
-        .doc(this.sayby(value))
-        .collection("offers")
-        .get()
-        .then((query) => {
-          this.offers = [];
-          query.forEach((doc) => {
-            const data = doc.data();
-
-            this.offers.push({
-              offer: data.offer,
-              email: data.email,
-            });
-          });
-        });
-    },
-    sayby(id) {
-      console.log(id);
+      this.starting = "";
     },
   },
   computed: {
