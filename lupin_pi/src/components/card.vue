@@ -21,6 +21,7 @@
               ><b>Time remaining:</b></span
             >
             <vue-countdown-timer
+              @end_callback="endCallBack()"
               :start-time="new Date().getTime()"
               :end-time="this.slika.date"
               :interval="1000"
@@ -94,17 +95,25 @@ export default {
       cijena: "",
       offers: [],
       maxbidd: "",
+      maxuser: "",
     };
   },
   methods: {
+    endCallBack() {
+      if (store.currentUser === this.maxuser) {
+        console.log("pobjednik", this.slika.description);
+      }
+    },
     async postOffer() {
       for (let i = 0; i < this.offers.length; i++) {
         this.maxbidd = this.offers[0].offer;
         if (this.maxbidd < this.offers[i].offer) {
           this.maxbidd = this.offers[i].offer;
         }
+
         console.log(this.maxbidd);
       }
+
       try {
         if (
           this.cijena > this.slika.startingbidd &&
@@ -123,6 +132,8 @@ export default {
           this.getOffers();
         } else {
           console.log("premali offer");
+          alert("premali offer");
+          console.log(this.maxuser);
         }
       } catch (e) {
         console.error("Greška", e);
@@ -141,20 +152,14 @@ export default {
           this.offers = [];
           query.forEach((doc) => {
             const data = doc.data();
-
+            this.maxuser = data.user;
+            console.log(this.maxuser);
             this.offers.push({
               offer: data.offer,
               email: data.user,
             });
           });
         });
-      for (let i = 0; i < this.offers.length; i++) {
-        this.maxbidd = this.offers[0].offer;
-        if (this.maxbidd < this.offers[i].offer) {
-          this.maxbidd = this.offers[i].offer;
-        }
-        console.log(this.maxbidd);
-      }
     },
   },
   mounted() {
