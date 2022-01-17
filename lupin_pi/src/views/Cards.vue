@@ -25,7 +25,7 @@
               v-model="imageReference"
               placeholder="upload image"
             ></croppa>
-            <label for="newnaziv">Naziv</label>
+            <label for="newnaziv">Name:</label>
             <input
               v-model="newnaziv"
               class="form-control me-2"
@@ -57,14 +57,30 @@
               id="duedate"
               style="margin-top: 5px"
             />
-            <label for="duedate">Starting bid</label>
+            <label for="startingbidd">Starting bid</label>
             <input
               v-model="starting"
               class="form-control me-2"
               type="number"
-              id="duedate"
+              id="startingbidd"
               style="margin-top: 5px"
             />
+            <label for="quantity">Quantity</label>
+            <input
+              v-model="quantity"
+              class="form-control me-2"
+              type="number"
+              id="quantity"
+              style="margin-top: 5px"
+            />
+            <label for="desc">Product description</label>
+            <textarea
+              v-model="productdesc"
+              class="form-control me-2"
+              type="text"
+              id="desc"
+              style="margin-top: 5px"
+            ></textarea>
             <button
               class="btn btn-outline-dark center"
               type="submit"
@@ -130,8 +146,10 @@ export default {
       newcijena: "",
       duedate: "",
       starting: "",
+      quantity: "",
       imageReference: null,
       loading: false,
+      productdesc: "",
     };
   },
   mounted() {
@@ -159,6 +177,8 @@ export default {
               url: data.url,
               time: data.posted_at,
               date: data.date,
+              quantity: data.quantity,
+              productdesc: data.productdesc,
             });
           });
         });
@@ -184,7 +204,8 @@ export default {
         const imageproizvodac = this.newproizvodac;
         const imagecijena = this.newcijena;
         const startingbidd = this.starting;
-
+        const quantity = this.quantity;
+        const product = this.productdesc;
         let doc = await db.collection("proizvodi").add({
           url: url,
           desc: imagenaziv,
@@ -194,6 +215,8 @@ export default {
           email: store.currentUser,
           posted_at: Date.now(),
           date: new Date(this.duedate).getTime(),
+          quantity: quantity,
+          productdesc: product,
         });
         console.log("Spremljeno", doc);
 
@@ -208,6 +231,8 @@ export default {
       this.duedate = "";
       this.loading = false;
       this.starting = "";
+      this.quantity = "";
+      this.productdesc = "";
     },
   },
   computed: {

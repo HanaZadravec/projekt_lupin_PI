@@ -66,15 +66,19 @@
           type="search"
           placeholder="Search"
           aria-label="Search"
-          style="margin-top: 5px"
+          style="margin-top: 7px"
         />
-        <a href="/cart" style="text-decoration: none"
-          ><i
-            class="fas fa-shopping-cart nav-link fa-2x"
-            style="color: black"
-          ></i
-        ></a>
-        <a href="/myprofile" style="text-decoration: none"
+
+        <span class="text-right nav-link" style="width: 200px">
+          <button
+            class="btn btn-dark"
+            data-toggle="modal"
+            data-target="#cartModal"
+          >
+            Cart (0)
+          </button>
+        </span>
+        <a href="/myprofile" style="text-decoration: none; margin-top: 3px"
           ><i class="fas fa-user-circle nav-link fa-2x" style="color: black"></i
         ></a>
       </form>
@@ -91,6 +95,7 @@ export default {
   data() {
     return {
       store: store,
+      showCart: false,
     };
   },
   methods: {

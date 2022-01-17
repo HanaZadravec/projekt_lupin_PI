@@ -11,10 +11,6 @@
             <p class="card-text">{{ slika.manufacturer }}</p>
             <p>{{ slika.price }}</p>
             <p>Pocetni bidd : {{ slika.startingbidd }}</p>
-            <p class="card-text" v-for="data in this.offers" :key="data.id">
-              <b>{{ data.offer }} $</b>
-              {{ data.email }}
-            </p>
           </div>
           <div class="col-md-6">
             <span style="font-size: 130%; margin-right: 15px"
@@ -33,14 +29,24 @@
               style="display: inline-block; font-size: 110%"
             >
             </vue-countdown-timer>
-            <div style="font-size: 130%; margin-right: 15px">
-              <b>Best offer:</b>
+            <div style="margin-right: 15px">
+              <b style="font-size: 130%">Best offer:</b>
+              <span
+                style="margin-left: 8px"
+                class="card-text"
+                v-for="data in this.offers"
+                :key="data.id"
+              >
+                <b>{{ data.offer }} $</b>
+                {{ data.email }}
+              </span>
             </div>
             <div style="font-size: 130%; margin-right: 15px">
               <b>Buy now price:</b>
               {{ slika.price }}
             </div>
             <button
+              v-if="this.done"
               class="btn btn-outline-dark w-70"
               type="button"
               style="height: 40px; margin-top: 15px"
@@ -49,21 +55,41 @@
             </button>
             <form style="margin-top: 15px">
               <input
+                v-if="this.done"
                 v-model="cijena"
                 class="form-control me-2 center"
                 type="number"
                 id="newnaziv"
                 style="margin-top: 5px; width: 300px"
                 placeholder="Make an offer..."
+                :min="this.slika.startingbidd"
+              />
+              <input
+                v-if="!this.done && this.winner"
+                class="form-control me-2 center"
+                type="number"
+                id="newnaziv"
+                style="margin-top: 5px; width: 300px"
+                value="1"
+                :max="this.slika.quantity"
                 min="1"
               />
               <button
+                v-if="this.done"
                 @click="postOffer()"
                 class="btn btn-outline-dark center w-70"
                 type="button"
                 style="height: 40px; margin-top: 15px"
               >
                 Make an offer
+              </button>
+              <button
+                v-if="!this.done && this.winner"
+                class="btn btn-outline-dark center w-70"
+                type="button"
+                style="height: 40px; margin-top: 15px"
+              >
+                Add to cart
               </button>
             </form>
           </div>
@@ -76,7 +102,7 @@
               margin-top: 75px;
             "
           >
-            {{ slika.description }}
+            {{ slika.productdesc }}
           </div>
         </div>
       </div>
@@ -96,13 +122,17 @@ export default {
       offers: [],
       maxbidd: "",
       maxuser: "",
+      winner: false,
+      done: true,
     };
   },
   methods: {
     endCallBack() {
       if (store.currentUser === this.maxuser) {
         console.log("pobjednik", this.slika.description);
+        this.winner = true;
       }
+      this.done = false;
     },
     async postOffer() {
       for (let i = 0; i < this.offers.length; i++) {
