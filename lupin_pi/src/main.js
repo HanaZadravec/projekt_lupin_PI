@@ -5,11 +5,15 @@ import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
 import "vue-search-select/dist/VueSearchSelect.css";
 import VueCountdownTimer from "vuejs-countdown-timer";
+import store from "./store";
 
 Vue.use(VueCountdownTimer);
 Vue.config.productionTip = false;
 Vue.use(Croppa);
+
+export const eventbus = new Vue();
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");

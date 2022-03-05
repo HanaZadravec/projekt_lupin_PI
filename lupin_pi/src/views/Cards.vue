@@ -1,6 +1,7 @@
 <template>
   <div>
     <navbarbuyer />
+
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -65,14 +66,7 @@
               id="startingbidd"
               style="margin-top: 5px"
             />
-            <label for="quantity">Quantity</label>
-            <input
-              v-model="quantity"
-              class="form-control me-2"
-              type="number"
-              id="quantity"
-              style="margin-top: 5px"
-            />
+
             <label for="desc">Product description</label>
             <textarea
               v-model="productdesc"
@@ -126,7 +120,6 @@
 </style>
 
 <script>
-// @ is an alias to /src
 import navbarbuyer from "@/components/navbarbuyer.vue";
 import footerapp from "@/components/footerapp.vue";
 import card from "@/components/card.vue";
@@ -135,10 +128,10 @@ import { db, storage } from "@/firebase.js";
 
 export default {
   name: "Cards",
+
   data() {
     return {
       proizvod: [],
-
       store,
       newImageUrl: "",
       newnaziv: "",
@@ -146,7 +139,6 @@ export default {
       newcijena: "",
       duedate: "",
       starting: "",
-      quantity: "",
       imageReference: null,
       loading: false,
       productdesc: "",
@@ -158,7 +150,6 @@ export default {
   methods: {
     getPosts() {
       console.log("firebase dohvat");
-
       db.collection("proizvodi")
         .orderBy("posted_at", "desc")
         .get()
@@ -166,7 +157,6 @@ export default {
           this.proizvod = [];
           query.forEach((doc) => {
             const data = doc.data();
-
             this.proizvod.push({
               id: doc.id,
               description: data.desc,
@@ -177,13 +167,11 @@ export default {
               url: data.url,
               time: data.posted_at,
               date: data.date,
-              quantity: data.quantity,
               productdesc: data.productdesc,
             });
           });
         });
     },
-
     getImage() {
       return new Promise((resolveFn, errorFn) => {
         this.imageReference.generateBlob((data) => {
@@ -198,13 +186,12 @@ export default {
         let imageName =
           "posts/" + store.currentUser + "/" + Date.now() + ".png";
         let result = await storage.ref(imageName).put(blobData);
-        let url = await result.ref.getDownloadURL(); // Promise
+        let url = await result.ref.getDownloadURL();
 
         const imagenaziv = this.newnaziv;
         const imageproizvodac = this.newproizvodac;
         const imagecijena = this.newcijena;
         const startingbidd = this.starting;
-        const quantity = this.quantity;
         const product = this.productdesc;
         let doc = await db.collection("proizvodi").add({
           url: url,
@@ -215,7 +202,6 @@ export default {
           email: store.currentUser,
           posted_at: Date.now(),
           date: new Date(this.duedate).getTime(),
-          quantity: quantity,
           productdesc: product,
         });
         console.log("Spremljeno", doc);
@@ -231,7 +217,6 @@ export default {
       this.duedate = "";
       this.loading = false;
       this.starting = "";
-      this.quantity = "";
       this.productdesc = "";
     },
   },

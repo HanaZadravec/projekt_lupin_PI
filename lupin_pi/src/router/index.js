@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import store from "@/store.js";
 
 Vue.use(VueRouter);
 
@@ -99,20 +98,10 @@ const routes = [
     },
   },
   {
-    path: "/cart",
-    name: "Cart",
-    component: () => import(/* webpackChunkName: "cart" */ "../views/cart.vue"),
-    meta: {
-      needsUser: true,
-    },
-  },
-  {
-    path: "/shippingandpayment",
-    name: "Shipping and payment method",
+    path: "/checkout",
+    name: "Check out",
     component: () =>
-      import(
-        /* webpackChunkName: "shippingandpayment" */ "../views/shippingandpayment.vue"
-      ),
+      import(/* webpackChunkName: "myprofile" */ "../views/checkout.vue"),
     meta: {
       needsUser: true,
     },
@@ -260,6 +249,25 @@ const routes = [
     meta: {
       needsUser: true,
     },
+  },
+  {
+    path: "/checkout",
+    name: "Checkout",
+    component: () =>
+      import(/* webpackChunkName: "Sponsors" */ "../views/checkout.vue"),
+    meta: {
+      needsUser: true,
+    },
+  },
+  {
+    path: "/product/:id",
+    name: "product",
+    component: () =>
+      import(/* webpackChunkName: "Sponsors" */ "../views/product.vue"),
+    meta: {
+      needsUser: true,
+    },
+    props: true,
   },
 ];
 

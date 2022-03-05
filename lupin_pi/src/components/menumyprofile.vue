@@ -7,7 +7,7 @@
         >
         <br />
         <a href="myaddresses" style="color: black; font-size: 21px"
-          >My Addresses</a
+          >My addresses</a
         >
         <br />
         <a href="/changeemail" style="color: black; font-size: 21px"

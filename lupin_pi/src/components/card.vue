@@ -6,7 +6,12 @@
         <div class="row">
           <div class="col-md-6">
             <h6 class="card-title">
-              {{ slika.description }}
+              <router-link
+                style="text-decoration: none"
+                :to="{ name: 'product', params: { id: 23 } }"
+              >
+                {{ slika.description }}</router-link
+              >
             </h6>
             <p class="card-text">{{ slika.manufacturer }}</p>
             <p>{{ slika.price }}</p>
@@ -59,21 +64,11 @@
                 v-model="cijena"
                 class="form-control me-2 center"
                 type="number"
-                id="newnaziv"
                 style="margin-top: 5px; width: 300px"
                 placeholder="Make an offer..."
                 :min="this.slika.startingbidd"
               />
-              <input
-                v-if="!this.done && this.winner"
-                class="form-control me-2 center"
-                type="number"
-                id="newnaziv"
-                style="margin-top: 5px; width: 300px"
-                value="1"
-                :max="this.slika.quantity"
-                min="1"
-              />
+
               <button
                 v-if="this.done"
                 @click="postOffer()"
@@ -83,9 +78,10 @@
               >
                 Make an offer
               </button>
+
               <button
                 v-if="!this.done && this.winner"
-                class="btn btn-outline-dark center w-70"
+                class="btn btn-outline-dark center w-70 add-cart"
                 type="button"
                 style="height: 40px; margin-top: 15px"
               >
@@ -113,9 +109,11 @@
 <script>
 import { db } from "@/firebase.js";
 import store from "@/store.js";
+import { eventbus } from "@/main.js";
 export default {
   props: ["slika"],
   name: "card",
+
   data() {
     return {
       cijena: "",
@@ -126,7 +124,11 @@ export default {
       done: true,
     };
   },
+
   methods: {
+    toCheckout() {
+      this.$router.push("Checkout");
+    },
     endCallBack() {
       if (store.currentUser === this.maxuser) {
         console.log("pobjednik", this.slika.description);

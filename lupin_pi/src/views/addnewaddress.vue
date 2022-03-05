@@ -18,6 +18,7 @@
             <div class="form-group">
               <label for="name_address" class="center">Name:</label>
               <input
+                v-model="name"
                 type="text"
                 class="form-control center"
                 id="name_address"
@@ -27,6 +28,7 @@
             <div class="form-group">
               <label for="surname_address" class="center">Surname:</label>
               <input
+                v-model="surname"
                 type="text"
                 class="form-control center"
                 id="surname_address"
@@ -36,6 +38,7 @@
             <div class="form-group">
               <label for="address" class="center">Address:</label>
               <input
+                v-model="address"
                 type="text"
                 class="form-control center"
                 id="address"
@@ -45,6 +48,7 @@
             <div class="form-group">
               <label for="address_city" class="center">City:</label>
               <input
+                v-model="city"
                 type="text"
                 class="form-control center"
                 id="address_city"
@@ -54,6 +58,7 @@
             <div class="form-group">
               <label for="address_zipcode" class="center">Zip code:</label>
               <input
+                v-model="zipcode"
                 type="text"
                 class="form-control center"
                 id="address_zipcode"
@@ -64,6 +69,7 @@
             <div class="form-group" style="margin-bottom: 25px">
               <label for="address_mobile" class="center">Mobile number:</label>
               <input
+                v-model="mobilenumber"
                 type="text"
                 class="form-control center"
                 id="address_mobile"
@@ -71,6 +77,7 @@
               />
             </div>
             <button
+              @click="postnewaddress"
               type="button"
               class="btn btn-dark center"
               style="width: 80px"
@@ -86,14 +93,37 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import navbarbuyer from "@/components/navbarbuyer.vue";
 import footerapp from "@/components/footerapp.vue";
+import store from "@/store.js";
+import { db } from "@/firebase.js";
 export default {
   name: "Add new address",
   components: {
     navbarbuyer,
     footerapp,
+  },
+  data() {
+    return {
+      name: "",
+      surname: "",
+      address: "",
+      city: "",
+      zipcode: "",
+      mobilenumber: "",
+      adrese: [],
+    };
+  },
+  methods: {
+    postnewaddress() {
+      db.collection("adrese" + " " + store.currentUser).add({
+        name: this.name,
+        surname: this.surname,
+        address: this.address,
+        city: this.city,
+        mobile: this.mobilenumber,
+      });
+    },
   },
 };
 </script>
