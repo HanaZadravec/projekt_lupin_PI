@@ -97,26 +97,7 @@ const routes = [
       needsUser: true,
     },
   },
-  {
-    path: "/checkout",
-    name: "Check out",
-    component: () =>
-      import(/* webpackChunkName: "myprofile" */ "../views/checkout.vue"),
-    meta: {
-      needsUser: true,
-    },
-  },
-  {
-    path: "/stephencurry",
-    name: "Stephen Curry card",
-    component: () =>
-      import(
-        /* webpackChunkName: "stephencurry" */ "../views/stephencurry.vue"
-      ),
-    meta: {
-      needsUser: true,
-    },
-  },
+
   {
     path: "/cards",
     name: "Cards",
@@ -250,15 +231,7 @@ const routes = [
       needsUser: true,
     },
   },
-  {
-    path: "/checkout",
-    name: "Checkout",
-    component: () =>
-      import(/* webpackChunkName: "Sponsors" */ "../views/checkout.vue"),
-    meta: {
-      needsUser: true,
-    },
-  },
+
   {
     path: "/product/:id",
     name: "product",
