@@ -1,31 +1,55 @@
 <template>
   <div>
     <div
-      class="dropdown-menu"
-      aria-labelledby="navbarDropdown"
-      style="min-width: 330px; right: 0; left: auto"
+      class="modal fade"
+      id="miniCart"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
     >
-      <div style="display: flex; justify-content: space-between">
-        <div style="margin-left: 5px">
-          <strong>Product title</strong>
-          <br />
-          1 x $23
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">My cart</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div v-for="item in this.$store.state.cart" :key="item.id">
+              <div class="media-body">
+                <h5>Product title: {{ item.productName }}</h5>
+                <img :src="item.url" style="width: 80px" />
+                <p>
+                  Price : {{ item.productPrice }} $<br />Quantity:
+                  {{ item.productQuantity }}
+                </p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Continue Shopping
+              </button>
+              <button type="button" class="btn btn-primary">Check out</button>
+            </div>
+          </div>
         </div>
-        <div>
-          <a href="#" class="badge badge-secondary" style="margin-right: 7px"
-            >remove</a
-          >
-        </div>
-      </div>
-      <hr />
-      <div
-        style="margin-left: 5px; justify-content: space-between; display: flex"
-      >
-        Total: $23
-        <a href="#" style="margin-right: 7px; text-decoration: none"
-          >Clear cart</a
-        >
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "miniCart",
+};
+</script>

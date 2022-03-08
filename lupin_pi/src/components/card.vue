@@ -6,12 +6,7 @@
         <div class="row">
           <div class="col-md-6">
             <h6 class="card-title">
-              <router-link
-                style="text-decoration: none"
-                :to="{ name: 'product', params: { id: 23 } }"
-              >
-                {{ slika.description }}</router-link
-              >
+              {{ slika.description }}
             </h6>
             <p class="card-text">{{ slika.manufacturer }}</p>
             <p>{{ slika.price }}</p>
@@ -87,6 +82,13 @@
               >
                 Add to cart
               </button>
+              <AddToCart
+                v-if="!this.done && this.winner"
+                :name="this.slika.description"
+                :price="this.maxbidd"
+                :id="this.slika.date"
+                :url="this.slika.url"
+              />
             </form>
           </div>
           <div
@@ -109,11 +111,14 @@
 <script>
 import { db } from "@/firebase.js";
 import store from "@/store.js";
-import { eventbus } from "@/main.js";
+import AddToCart from "@/components/AddToCart.vue";
+
 export default {
   props: ["slika"],
   name: "card",
-
+  components: {
+    AddToCart,
+  },
   data() {
     return {
       cijena: "",
@@ -126,9 +131,6 @@ export default {
   },
 
   methods: {
-    toCheckout() {
-      this.$router.push("Checkout");
-    },
     endCallBack() {
       if (store.currentUser === this.maxuser) {
         console.log("pobjednik", this.slika.description);
@@ -136,13 +138,13 @@ export default {
       }
       this.done = false;
     },
+
     async postOffer() {
       for (let i = 0; i < this.offers.length; i++) {
         this.maxbidd = this.offers[0].offer;
         if (this.maxbidd < this.offers[i].offer) {
           this.maxbidd = this.offers[i].offer;
         }
-
         console.log(this.maxbidd);
       }
 
@@ -185,6 +187,7 @@ export default {
           query.forEach((doc) => {
             const data = doc.data();
             this.maxuser = data.user;
+            this.maxbidd = data.offer;
             console.log(this.maxuser);
             this.offers.push({
               offer: data.offer,

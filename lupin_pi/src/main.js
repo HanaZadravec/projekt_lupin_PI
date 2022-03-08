@@ -5,7 +5,7 @@ import Croppa from "vue-croppa";
 import "vue-croppa/dist/vue-croppa.css";
 import "vue-search-select/dist/VueSearchSelect.css";
 import VueCountdownTimer from "vuejs-countdown-timer";
-import store from "./store";
+import store from "@/index.js";
 
 Vue.use(VueCountdownTimer);
 Vue.config.productionTip = false;

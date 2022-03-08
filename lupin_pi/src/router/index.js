@@ -231,17 +231,6 @@ const routes = [
       needsUser: true,
     },
   },
-
-  {
-    path: "/product/:id",
-    name: "product",
-    component: () =>
-      import(/* webpackChunkName: "Sponsors" */ "../views/product.vue"),
-    meta: {
-      needsUser: true,
-    },
-    props: true,
-  },
 ];
 
 const router = new VueRouter({

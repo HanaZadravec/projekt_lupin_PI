@@ -76,25 +76,7 @@
             aria-label="Search"
             style="margin-top: 7px"
           />
-          <div style="margin-left: 20px; margin-right: 20px">
-            <button class="nav-item dropdown btn btn-dark">
-              <a
-                style="text-decoration: none; color: white"
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                0 Cart
-              </a>
-              <div @click="$event.stopPropagation()">
-                <MiniCart />
-              </div>
-            </button>
-          </div>
+          <miniCart />
           <a href="/myprofile" style="text-decoration: none; margin-top: 3px"
             ><i
               class="fas fa-user-circle nav-link fa-2x"
@@ -111,12 +93,13 @@
 import store from "@/store.js";
 import { firebase } from "@/firebase.js";
 import card from "@/components/card.vue";
-import MiniCart from "@/components/MiniCart.vue";
+import miniCart from "@/components/miniCart.vue";
+
 export default {
   name: "navbar_buyer",
   components: {
     card,
-    MiniCart,
+    miniCart,
   },
 
   data() {
