@@ -231,6 +231,15 @@ const routes = [
       needsUser: true,
     },
   },
+  {
+    path: "/checkout",
+    name: "Checkout",
+    component: () =>
+      import(/* webpackChunkName: "Sponsors" */ "../views/checkout.vue"),
+    meta: {
+      needsUser: true,
+    },
+  },
 ];
 
 const router = new VueRouter({

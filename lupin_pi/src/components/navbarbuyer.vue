@@ -77,6 +77,14 @@
             style="margin-top: 7px"
           />
           <miniCart />
+          <a
+            class="btn btn-dark nav-link w-50"
+            style="margin-left: 20px; border-radius: 12px"
+            data-toggle="modal"
+            data-target="#miniCart"
+          >
+            Cart ({{ this.$store.state.cart.length }})
+          </a>
           <a href="/myprofile" style="text-decoration: none; margin-top: 3px"
             ><i
               class="fas fa-user-circle nav-link fa-2x"

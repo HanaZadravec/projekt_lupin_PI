@@ -23,7 +23,15 @@
           <div class="modal-body">
             <div v-for="item in this.$store.state.cart" :key="item.id">
               <div class="media-body">
-                <h5>Product title: {{ item.productName }}</h5>
+                <h5>
+                  Product title: {{ item.productName }}
+                  <span
+                    class="float-right"
+                    style="cursor: pointer"
+                    @click="$store.commit('removeFromCart', item)"
+                    >x</span
+                  >
+                </h5>
                 <img :src="item.url" style="width: 80px" />
                 <p>
                   Price : {{ item.productPrice }} $<br />Quantity:
@@ -39,7 +47,9 @@
               >
                 Continue Shopping
               </button>
-              <button type="button" class="btn btn-primary">Check out</button>
+              <button type="button" class="btn btn-primary" @click="checkout()">
+                Check out
+              </button>
             </div>
           </div>
         </div>
@@ -51,5 +61,11 @@
 <script>
 export default {
   name: "miniCart",
+  methods: {
+    checkout() {
+      $("#miniCart").modal("hide");
+      this.$router.push("/checkout");
+    },
+  },
 };
 </script>

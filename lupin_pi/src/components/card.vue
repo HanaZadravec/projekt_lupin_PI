@@ -74,14 +74,6 @@
                 Make an offer
               </button>
 
-              <button
-                v-if="!this.done && this.winner"
-                class="btn btn-outline-dark center w-70 add-cart"
-                type="button"
-                style="height: 40px; margin-top: 15px"
-              >
-                Add to cart
-              </button>
               <AddToCart
                 v-if="!this.done && this.winner"
                 :name="this.slika.description"
