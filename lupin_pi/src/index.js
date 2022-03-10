@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import store from "@/store.js";
 Vue.use(Vuex);
 
 let cart = window.localStorage.getItem("cart");
@@ -22,7 +22,7 @@ export default new Vuex.Store({
       this.commit("saveData");
     },
     saveData(state) {
-      window.localStorage.setItem("cart", JSON.stringify(state.cart));
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     removeFromCart(state, item) {
       let product = state.cart.indexOf(item);
