@@ -42,28 +42,6 @@
               />
             </div>
 
-            <label for="type_user" class="center">Type of User:</label>
-            <select
-              v-model="selected"
-              class="form-select center"
-              aria-label="Default select example"
-              style="height: 48px; margin-bottom: 25px; border-radius: 5px"
-              id="type_user"
-            >
-              <option value="buyer">Buyer</option>
-              <option value="seller">Seller</option>
-            </select>
-            <div class="form-group">
-              <label for="username_signup" class="center">Username:</label>
-              <input
-                v-model="username"
-                type="text"
-                class="form-control center"
-                id="username_signup"
-                placeholder="Enter username..."
-                style="height: 48px"
-              />
-            </div>
             <div class="form-group">
               <label for="email_signup" class="center">Email:</label>
               <input
@@ -100,7 +78,7 @@
               />
             </div>
             <button
-              @click="signup()"
+              @click="signup() && createUser()"
               class="btn btn-outline-dark center"
               type="button"
               style="height: 40px; margin-top: 5px; width: 80px"
@@ -116,7 +94,7 @@
 </template>
 
 <script>
-import { firebase } from "@/firebase.js";
+import { firebase, db } from "@/firebase.js";
 export default {
   name: "Signup",
   data() {
@@ -124,10 +102,9 @@ export default {
       email: "",
       name: "",
       surname: "",
-      selected: "",
+
       password: "",
       confirmpass: "",
-      username: "",
     };
   },
   methods: {
@@ -142,7 +119,19 @@ export default {
           .catch(function (e) {
             console.error("doslo je do greske", e);
           });
-        console.log("nastavak");
+
+        db.collection("users")
+          .add({
+            email: this.email,
+            name: this.name,
+            surname: this.surname,
+          })
+          .then(() => {
+            console.log("Spremljeno");
+          })
+          .catch((error) => {
+            console.error("Greška", error);
+          });
       } else {
         alert("Passwords are not the same");
       }
@@ -150,12 +139,22 @@ export default {
         this.email === "" ||
         this.name === "" ||
         this.surname === "" ||
-        this.selected === "" ||
         this.password === "" ||
-        this.confirmpass === "" ||
-        this.username === ""
+        this.confirmpass === ""
       ) {
         alert("You didn't fill out everything");
+      }
+    },
+    async createUser() {
+      try {
+        let doc = await db.collection("users").add({
+          email: this.email,
+          name: this.name,
+          surname: this.surname,
+        });
+        console.log("Spremljeno", doc);
+      } catch (e) {
+        console.error("Greška", e);
       }
     },
   },

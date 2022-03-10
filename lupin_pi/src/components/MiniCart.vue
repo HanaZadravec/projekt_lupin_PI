@@ -21,6 +21,9 @@
             </button>
           </div>
           <div class="modal-body">
+            <div v-if="this.$store.state.cart.length == 0">
+              <h3>Cart is empty!</h3>
+            </div>
             <div v-for="item in this.$store.state.cart" :key="item.id">
               <div class="media-body">
                 <h5>

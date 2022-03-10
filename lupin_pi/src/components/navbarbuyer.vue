@@ -83,7 +83,9 @@
             data-toggle="modal"
             data-target="#miniCart"
           >
-            Cart ({{ this.$store.state.cart.length }})
+            <i class="fas fa-shopping-cart" style="margin-top: 7px">
+              ({{ this.$store.state.cart.length }})</i
+            >
           </a>
           <a href="/myprofile" style="text-decoration: none; margin-top: 3px"
             ><i

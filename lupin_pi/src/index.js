@@ -30,4 +30,14 @@ export default new Vuex.Store({
       this.commit("saveData");
     },
   },
+  getters: {
+    totalPrice: (state) => {
+      let total = 0;
+      state.cart.filter((item) => {
+        total += item.productPrice * item.productQuantity;
+      });
+
+      return total;
+    },
+  },
 });

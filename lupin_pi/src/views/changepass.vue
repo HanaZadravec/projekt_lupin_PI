@@ -25,44 +25,19 @@
           <h2 style="font-family: Arial, Helvetica, sans-serif">
             <b>Change password</b>
           </h2>
-
-          <form style="margin-top: 15px">
-            <div class="form-group">
-              <label for="currpass">Current password:</label>
-              <input
-                type="password"
-                class="form-control"
-                id="currpass"
-                placeholder="Enter current password..."
-              />
-            </div>
-            <div class="form-group">
-              <label for="newpass">New password:</label>
-              <input
-                type="password"
-                class="form-control"
-                id="newpass"
-                placeholder="Enter new password..."
-              />
-            </div>
-            <div class="form-group">
-              <label for="confirmnewpass">Confirm new password:</label>
-              <input
-                type="password"
-                class="form-control"
-                id="confirmnewpass"
-                placeholder="Confirm new password..."
-              />
-            </div>
-
-            <button
-              type="button"
-              class="btn btn-dark center"
-              style="width: 80px"
+          <p style="margin-top: 10px">
+            <i>
+              When you click the "Update" button, an email will be sent to your
+              default email address, allowing you to change your password.</i
             >
-              Update
-            </button>
-          </form>
+          </p>
+          <input
+            type="button"
+            class="btn btn-dark center"
+            style="width: 80px"
+            value="Update"
+            @click="resetPass()"
+          />
         </div>
       </div>
     </div>
@@ -75,13 +50,27 @@
 import navbarbuyer from "@/components/navbarbuyer.vue";
 import footerapp from "@/components/footerapp.vue";
 import menumyprofile from "@/components/menumyprofile.vue";
+import { firebase } from "@/firebase.js";
 
 export default {
-  name: "Change password",
+  name: "Changepassword",
   components: {
     navbarbuyer,
     footerapp,
     menumyprofile,
+  },
+  methods: {
+    resetPass() {
+      const auth = firebase.auth();
+      auth
+        .sendPasswordResetEmail(auth.currentUser.email)
+        .then(() => {
+          alert("Email sent");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>

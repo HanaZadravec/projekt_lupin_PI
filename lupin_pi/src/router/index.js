@@ -118,15 +118,7 @@ const routes = [
       needsUser: true,
     },
   },
-  {
-    path: "/changeemail",
-    name: "Change email address",
-    component: () =>
-      import(/* webpackChunkName: "changeemail" */ "../views/changeemail.vue"),
-    meta: {
-      needsUser: true,
-    },
-  },
+
   {
     path: "/changepass",
     name: "Change password",
@@ -155,17 +147,6 @@ const routes = [
     },
   },
 
-  {
-    path: "/updatepersonal",
-    name: "Update personal information",
-    component: () =>
-      import(
-        /* webpackChunkName: "updatepersonal" */ "../views/updatepersonal.vue"
-      ),
-    meta: {
-      needsUser: true,
-    },
-  },
   {
     path: "/login",
     name: "Login",
