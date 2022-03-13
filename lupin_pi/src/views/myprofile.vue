@@ -72,11 +72,16 @@ import footerapp from "@/components/footerapp.vue";
 import menumyprofile from "@/components/menumyprofile.vue";
 
 export default {
-  name: "My profile",
+  name: "Myprofile",
   components: {
     navbarbuyer,
     footerapp,
     menumyprofile,
+  },
+  data() {
+    return {
+      orders: [],
+    };
   },
 };
 </script>

@@ -97,6 +97,21 @@
         </div>
       </div>
     </div>
+    <div v-if="ordered" class="card">
+      <img :src="slika.url" class="card-img-top" style="margin: auto" />
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-title">
+              {{ slika.description }}
+            </h6>
+            <p class="card-text">{{ slika.manufacturer }}</p>
+            <p>{{ slika.price }}</p>
+            <p>Naruceno!!!!</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -119,6 +134,9 @@ export default {
       maxuser: "",
       winner: false,
       done: true,
+      ordered: false,
+      orders: [],
+      users: [],
     };
   },
 

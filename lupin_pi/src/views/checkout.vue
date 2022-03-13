@@ -125,7 +125,11 @@
               placeholder="Enter your mobile number..."
             />
           </div>
-          <button class="btn btn-dark center" style="margin-top: 10px">
+          <button
+            @click="spremiOrder()"
+            class="btn btn-dark center"
+            style="margin-top: 10px"
+          >
             Order
           </button>
         </div>
@@ -141,6 +145,8 @@
 <script>
 import navbar from "@/components/navbarbuyer.vue";
 import footerapp from "@/components/footerapp.vue";
+import { db } from "@/firebase.js";
+import store from "@/store.js";
 export default {
   name: "Checkout",
   data() {
@@ -149,11 +155,62 @@ export default {
       payment: "",
       address: "",
       mobile: "",
+      zipcode: "",
+      users: [],
+      useremail: "",
     };
   },
   components: {
     navbar,
     footerapp,
+  },
+  methods: {
+    async spremiOrder() {
+      try {
+        for (let i = 0; i < this.users.length; i++) {
+          if (store.currentUser == this.users[i].email) {
+            let doc = await db
+              .collection("users")
+              .doc(this.users.id)
+              .collection("orders")
+              .add({
+                product: this.$store.state.cart,
+                price: this.$store.getters.totalPrice,
+              });
+            console.log("Spremljeno", doc);
+          }
+        }
+        alert("Order confirmed");
+        window.location.reload();
+        localStorage.clear();
+        this.commit("saveData");
+      } catch (e) {
+        console.error("Greška", e);
+      }
+
+      this.getUsers();
+    },
+    getUsers() {
+      db.collection("users")
+        .get()
+        .then((query) => {
+          query.forEach((doc) => {
+            const data = doc.data();
+            this.users.push({
+              id: doc.id,
+              name: data.name,
+              email: data.email,
+              surname: data.surname,
+            });
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  mounted() {
+    this.getUsers();
   },
 };
 </script>
