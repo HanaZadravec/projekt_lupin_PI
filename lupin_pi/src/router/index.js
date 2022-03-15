@@ -88,32 +88,12 @@ const routes = [
       needsUser: true,
     },
   },
-  {
-    path: "/myprofile",
-    name: "My profile",
-    component: () =>
-      import(/* webpackChunkName: "myprofile" */ "../views/myprofile.vue"),
-    meta: {
-      needsUser: true,
-    },
-  },
 
   {
     path: "/cards",
     name: "Cards",
     component: () =>
       import(/* webpackChunkName: "cards" */ "../views/Cards.vue"),
-    meta: {
-      needsUser: true,
-    },
-  },
-  {
-    path: "/addnewaddress",
-    name: "Add new address",
-    component: () =>
-      import(
-        /* webpackChunkName: "addnewaddress" */ "../views/addnewaddress.vue"
-      ),
     meta: {
       needsUser: true,
     },
@@ -135,15 +115,6 @@ const routes = [
       import(/* webpackChunkName: "forgotpass" */ "../views/forgotpass.vue"),
     meta: {
       needsUser: false,
-    },
-  },
-  {
-    path: "/myaddresses",
-    name: "My addresses",
-    component: () =>
-      import(/* webpackChunkName: "myaddresses" */ "../views/myaddresses.vue"),
-    meta: {
-      needsUser: true,
     },
   },
 

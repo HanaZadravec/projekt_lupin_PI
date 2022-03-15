@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbarbuyer />
+    <navbar />
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -49,12 +49,12 @@
 </template>
 
 <script>
-import navbarbuyer from "@/components/navbarbuyer.vue";
+import navbar from "@/components/navbar.vue";
 import footerapp from "@/components/footerapp.vue";
 export default {
   name: "Our story",
   components: {
-    navbarbuyer,
+    navbar,
     footerapp,
   },
 };

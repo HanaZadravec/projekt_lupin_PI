@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbarbuyer />
+    <navbar />
     <div class="container">
       <div class="row">
         <div class="col-md-12" style="margin-top: 50px; margin-bottom: 30px">
@@ -47,7 +47,7 @@
 
 <script>
 // @ is an alias to /src
-import navbarbuyer from "@/components/navbarbuyer.vue";
+import navbar from "@/components/navbar.vue";
 import footerapp from "@/components/footerapp.vue";
 import menumyprofile from "@/components/menumyprofile.vue";
 import { firebase } from "@/firebase.js";
@@ -55,7 +55,7 @@ import { firebase } from "@/firebase.js";
 export default {
   name: "Changepassword",
   components: {
-    navbarbuyer,
+    navbar,
     footerapp,
     menumyprofile,
   },

@@ -1,6 +1,6 @@
 <template>
   <div style="background-color: #f7f7f7">
-    <navbarbuyer />
+    <navbar />
     <div class="container">
       <div class="row">
         <div class="col-md-12" style="margin-top: 20px">
@@ -65,13 +65,13 @@
 </template>
 
 <script>
-import navbarbuyer from "@/components/navbarbuyer.vue";
+import navbar from "@/components/navbar.vue";
 import footerapp from "@/components/footerapp.vue";
 
 export default {
   name: "Contact",
   components: {
-    navbarbuyer,
+    navbar,
     footerapp,
   },
 };

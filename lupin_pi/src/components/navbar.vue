@@ -65,14 +65,6 @@
           </li>
         </ul>
         <form class="d-flex">
-          <input
-            v-model="store.searchTerm"
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            style="margin-top: 7px"
-          />
           <miniCart />
           <a
             class="btn btn-dark nav-link w-50"

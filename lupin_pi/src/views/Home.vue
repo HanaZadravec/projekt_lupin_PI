@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navbarbuyer />
+    <navbar />
     <div
       class="image_back"
       style="position: relative; text-align: center; color: white"
@@ -98,13 +98,13 @@
 
 <script>
 // @ is an alias to /src
-import navbarbuyer from "@/components/navbarbuyer";
+import navbar from "@/components/navbar.vue";
 import footerapp from "@/components/footerapp.vue";
 
 export default {
   name: "Home",
   components: {
-    navbarbuyer,
+    navbar,
     footerapp,
   },
 };

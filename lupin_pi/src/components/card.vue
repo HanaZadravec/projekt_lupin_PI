@@ -1,6 +1,21 @@
 <template>
   <div class="col-md-12" style="margin-top: 20px">
-    <div class="card">
+    <div v-if="this.usporedba() == true" class="card">
+      <img :src="slika.url" class="card-img-top" style="margin: auto" />
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-title">
+              {{ slika.description }}
+            </h6>
+            <p class="card-text">{{ slika.manufacturer }}</p>
+            <p>{{ slika.price }}</p>
+            <p>Naruceno!!!!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="card">
       <img :src="slika.url" class="card-img-top" style="margin: auto" />
       <div class="card-body">
         <div class="row">
@@ -45,14 +60,13 @@
               <b>Buy now price:</b>
               {{ slika.price }}
             </div>
-            <button
+            <buyNow
               v-if="this.done"
-              class="btn btn-outline-dark w-70"
-              type="button"
-              style="height: 40px; margin-top: 15px"
-            >
-              Buy Now
-            </button>
+              :name="this.slika.description"
+              :price="this.slika.price"
+              :id="this.slika.date"
+              :url="this.slika.url"
+            />
             <form style="margin-top: 15px">
               <input
                 v-if="this.done"
@@ -83,6 +97,7 @@
               />
             </form>
           </div>
+
           <div
             class="col-md-12"
             style="
@@ -97,21 +112,6 @@
         </div>
       </div>
     </div>
-    <div v-if="ordered" class="card">
-      <img :src="slika.url" class="card-img-top" style="margin: auto" />
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <h6 class="card-title">
-              {{ slika.description }}
-            </h6>
-            <p class="card-text">{{ slika.manufacturer }}</p>
-            <p>{{ slika.price }}</p>
-            <p>Naruceno!!!!</p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -119,12 +119,14 @@
 import { db } from "@/firebase.js";
 import store from "@/store.js";
 import AddToCart from "@/components/AddToCart.vue";
+import buyNow from "@/components/buyNow.vue";
 
 export default {
   props: ["slika"],
   name: "card",
   components: {
     AddToCart,
+    buyNow,
   },
   data() {
     return {
@@ -134,13 +136,40 @@ export default {
       maxuser: "",
       winner: false,
       done: true,
-      ordered: false,
+      ordered: null,
       orders: [],
-      users: [],
     };
   },
 
   methods: {
+    getOrders() {
+      console.log("firebase dohvat");
+      db.collection("orders")
+        .get()
+        .then((query) => {
+          query.forEach((doc) => {
+            const data = doc.data();
+            this.orders.push({
+              id: data.id,
+              email: data.user,
+              name: data.product,
+            });
+          });
+        });
+    },
+    usporedba() {
+      for (let i = 0; i < JSON.parse(JSON.stringify(this.orders.length)); i++) {
+        for (
+          let j = 0;
+          j < JSON.parse(JSON.stringify(this.orders[i].id.length));
+          j++
+        ) {
+          if (this.slika.date == this.orders[i].id[j]) {
+            return true;
+          }
+        }
+      }
+    },
     endCallBack() {
       if (store.currentUser === this.maxuser) {
         console.log("pobjednik", this.slika.description);
@@ -209,6 +238,8 @@ export default {
   },
   mounted() {
     this.getOffers();
+    this.getOrders();
+    this.usporedba();
   },
 };
 </script>

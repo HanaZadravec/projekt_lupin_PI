@@ -132,6 +132,13 @@
           >
             Order
           </button>
+          <button
+            @click="hel()"
+            class="btn btn-dark center"
+            style="margin-top: 10px"
+          >
+            Orde
+          </button>
         </div>
         <div class="col-md-3" v-else>
           <p>Total price: 0$</p>
@@ -143,7 +150,7 @@
 </template>
 
 <script>
-import navbar from "@/components/navbarbuyer.vue";
+import navbar from "@/components/navbar.vue";
 import footerapp from "@/components/footerapp.vue";
 import { db } from "@/firebase.js";
 import store from "@/store.js";
@@ -156,8 +163,8 @@ export default {
       address: "",
       mobile: "",
       zipcode: "",
-      users: [],
       useremail: "",
+      orders: [],
     };
   },
   components: {
@@ -165,52 +172,49 @@ export default {
     footerapp,
   },
   methods: {
-    async spremiOrder() {
-      try {
-        for (let i = 0; i < this.users.length; i++) {
-          if (store.currentUser == this.users[i].email) {
-            let doc = await db
-              .collection("users")
-              .doc(this.users.id)
-              .collection("orders")
-              .add({
-                product: this.$store.state.cart,
-                price: this.$store.getters.totalPrice,
-              });
-            console.log("Spremljeno", doc);
-          }
-        }
-        alert("Order confirmed");
-        window.location.reload();
-        localStorage.clear();
-        this.commit("saveData");
-      } catch (e) {
-        console.error("Greška", e);
-      }
-
-      this.getUsers();
-    },
-    getUsers() {
-      db.collection("users")
+    getOrders() {
+      console.log("firebase dohvat");
+      db.collection("orders")
         .get()
         .then((query) => {
           query.forEach((doc) => {
             const data = doc.data();
-            this.users.push({
-              id: doc.id,
-              name: data.name,
-              email: data.email,
-              surname: data.surname,
+            this.orders.push({
+              id: data.id,
+              email: data.user,
+              name: data.product,
             });
           });
-        })
-        .catch((error) => {
-          console.log(error);
         });
+    },
+    usporedba() {
+      console.log(this.orders[0]);
+    },
+    async spremiOrder() {
+      try {
+        let data = this.$store.state.cart.map((item) => ({
+          id: item.productId,
+          name: item.productName,
+        }));
+        let name = data.map((data) => data.name);
+        let id = data.map((data) => data.id);
+        console.log(data);
+        let doc = await db.collection("orders").add({
+          id: id,
+          product: name,
+          user: store.currentUser,
+        });
+        console.log("Spremljeno", doc);
+        alert("Order confirmed");
+        window.location.reload();
+        localStorage.clear();
+      } catch (e) {
+        console.error("Greška", e);
+      }
     },
   },
   mounted() {
-    this.getUsers();
+    this.getOrders();
   },
 };
 </script>
