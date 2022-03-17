@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="slika_centrirano">
-      <img src="@/assets/logo.jpg" style="margin-top: 100px" />
+      <img src="@/assets/logo.jpg" style="margin-top: 130px" />
     </div>
   </div>
 </template>

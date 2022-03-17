@@ -192,6 +192,12 @@ const routes = [
       needsUser: true,
     },
   },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: () =>
+      import(/* webpackChunkName: "Sponsors" */ "../views/admin.vue"),
+  },
 ];
 
 const router = new VueRouter({

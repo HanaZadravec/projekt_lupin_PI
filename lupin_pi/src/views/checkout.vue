@@ -132,13 +132,6 @@
           >
             Order
           </button>
-          <button
-            @click="hel()"
-            class="btn btn-dark center"
-            style="margin-top: 10px"
-          >
-            Orde
-          </button>
         </div>
         <div class="col-md-3" v-else>
           <p>Total price: 0$</p>
@@ -187,9 +180,7 @@ export default {
           });
         });
     },
-    usporedba() {
-      console.log(this.orders[0]);
-    },
+
     async spremiOrder() {
       try {
         let data = this.$store.state.cart.map((item) => ({
@@ -203,6 +194,11 @@ export default {
           id: id,
           product: name,
           user: store.currentUser,
+          shipping: this.shipping,
+          address: this.address,
+          zipcode: this.zipcode,
+          payment: this.payment,
+          mobile: this.mobile,
         });
         console.log("Spremljeno", doc);
         alert("Order confirmed");

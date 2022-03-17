@@ -64,7 +64,7 @@
               v-if="this.done"
               :name="this.slika.description"
               :price="this.slika.price"
-              :id="this.slika.date"
+              :id="this.slika.time"
               :url="this.slika.url"
             />
             <form style="margin-top: 15px">
@@ -92,7 +92,7 @@
                 v-if="!this.done && this.winner"
                 :name="this.slika.description"
                 :price="this.maxbidd"
-                :id="this.slika.date"
+                :id="this.slika.time"
                 :url="this.slika.url"
               />
             </form>
@@ -164,7 +164,8 @@ export default {
           j < JSON.parse(JSON.stringify(this.orders[i].id.length));
           j++
         ) {
-          if (this.slika.date == this.orders[i].id[j]) {
+          if (this.slika.time == this.orders[i].id[j]) {
+            console.log(this.slika.time);
             return true;
           }
         }

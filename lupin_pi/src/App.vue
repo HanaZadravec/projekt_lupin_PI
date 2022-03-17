@@ -13,7 +13,11 @@ firebase.auth().onAuthStateChanged((user) => {
     console.log("*** User", user.email);
     store.currentUser = user.email;
     console.log(store.currentUser);
-    if (!currentRoute.meta.needsUser) {
+    if (store.currentUser == "admin@gmail.com") {
+      if (router.currentRoute.name != "Admin") {
+        router.push({ name: "Admin" });
+      }
+    } else if (!currentRoute.meta.needsUser) {
       router.push({ name: "Home" });
     }
   } else {

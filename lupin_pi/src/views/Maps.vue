@@ -1,6 +1,7 @@
 <template>
   <div>
     <navbarbuyer />
+
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -19,51 +20,17 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-md-4 col-6" style="margin-top: 20px">
-          <div class="card">
-            <img
-              src="@/assets/china1602.png"
-              class="card-img-top"
-              style="margin: auto"
-            />
-            <div class="card-body">
-              <h5 class="card-title">China in 1602 map</h5>
-              <p class="card-text">Matteo Ricci</p>
-              <p>1 mil $</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-6" style="margin-top: 20px">
-          <div class="card">
-            <img
-              src="@/assets/earlyamericas.png"
-              class="card-img-top"
-              style="margin: auto"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Early Americas map</h5>
-              <p class="card-text">Unknown</p>
-              <p>52 000 $</p>
-            </div>
-          </div>
-        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-12 col-12">
+          <card v-for="karte in filteredCards" :key="karte.id" :slika="karte" />
 
-        <div class="col-md-4 col-6" style="margin-top: 20px">
-          <div class="card">
-            <img
-              src="@/assets/freycinetmap.jpg"
-              class="card-img-top"
-              style="margin: auto"
-            />
-            <div class="card-body">
-              <h5 class="card-title">The Freycinet Map of 1811</h5>
-              <p class="card-text">Louis de Freycinet</p>
-              <p>30 000 $</p>
-            </div>
+          <div class="col-md-3">
+            <div class="col-md-4 tag-container"></div>
           </div>
         </div>
       </div>
     </div>
+
     <footerapp />
   </div>
 </template>
@@ -75,19 +42,94 @@
   object-fit: contain;
 }
 .card {
-  height: calc(100vh / 1.7);
+  height: calc(100vh / 1);
 }
 </style>
 
 <script>
-// @ is an alias to /src
 import navbarbuyer from "@/components/navbarbuyer.vue";
 import footerapp from "@/components/footerapp.vue";
+import card from "@/components/card.vue";
+import store from "@/store.js";
+import { db } from "@/firebase.js";
+
 export default {
-  name: "Comics",
+  name: "Cards",
+
+  data() {
+    return {
+      proizvod: [],
+      store,
+      newImageUrl: "",
+      newnaziv: "",
+      newproizvodac: "",
+      newcijena: "",
+      duedate: "",
+      starting: "",
+      imageReference: null,
+
+      productdesc: "",
+    };
+  },
+  mounted() {
+    this.getPosts();
+  },
+  methods: {
+    getPosts() {
+      console.log("firebase dohvat");
+      db.collection("proizvodi")
+        .orderBy("posted_at", "desc")
+        .get()
+        .then((query) => {
+          this.proizvod = [];
+          query.forEach((doc) => {
+            const data = doc.data();
+            if (data.typeofproduct == "Maps")
+              this.proizvod.push({
+                id: doc.id,
+                description: data.desc,
+                typeofproduct: data.typeofproduct,
+                manufacturer: data.manufacturer,
+                price: data.price,
+                startingbidd: data.startingbidd,
+                url: data.url,
+                time: data.posted_at,
+                date: data.date,
+                productdesc: data.productdesc,
+              });
+          });
+        });
+    },
+  },
+  computed: {
+    filteredCards() {
+      let termin = this.store.searchTerm;
+      let newCards = [];
+      for (let karte of this.proizvod) {
+        if (
+          karte.description.toLowerCase().indexOf(termin.toLowerCase()) >= 0 ||
+          karte.manufacturer.toLowerCase().indexOf(termin.toLowerCase()) >= 0
+        ) {
+          newCards.push(karte);
+        }
+        console.log(newCards);
+      }
+      return newCards;
+    },
+  },
+
   components: {
     navbarbuyer,
     footerapp,
+    card,
   },
 };
 </script>
+
+<style scoped>
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>

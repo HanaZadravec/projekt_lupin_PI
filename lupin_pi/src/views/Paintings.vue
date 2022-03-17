@@ -1,6 +1,7 @@
 <template>
   <div>
     <navbarbuyer />
+
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -12,116 +13,27 @@
               font-size: 55px;
             "
           >
-            <b>Paintings</b>
+            <b>Books</b>
           </h1>
         </div>
       </div>
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-md-4 col-6" style="margin-top: 20px">
-          <div class="card">
-            <img
-              src="@/assets/bianco.jpg"
-              class="card-img-top"
-              style="margin: auto"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Bianco</h5>
-              <p class="card-text">Victor Vasarely</p>
-              <p>350 000 $</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-6" style="margin-top: 20px">
-          <div class="card">
-            <img
-              src="@/assets/lepuits.jpg"
-              class="card-img-top"
-              style="margin: auto"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Le puits</h5>
-              <p class="card-text">Fernand Léger</p>
-              <p>174 140 $</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-6" style="margin-top: 20px">
-          <div class="card">
-            <img
-              src="@/assets/dice.jpg"
-              class="card-img-top"
-              style="margin: auto"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Dice</h5>
-              <p class="card-text">Alexander Calder</p>
-              <p>380 000 $</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-6" style="margin-top: 20px">
-          <div class="card">
-            <img
-              src="@/assets/m50.jpg"
-              class="card-img-top"
-              style="margin: auto"
-            />
-            <div class="card-body">
-              <h5 class="card-title">M.50</h5>
-              <p class="card-text">Petar Klasen</p>
-              <p>12 200 $</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-6" style="margin-top: 20px">
-          <div class="card">
-            <img
-              src="@/assets/lepavillon.jpg"
-              class="card-img-top"
-              style="margin: auto"
-            />
-            <div class="card-body">
-              <h6 class="card-title">Le Pavillon au bord de la Seine</h6>
-              <p class="card-text">Emmanuel de La Villéon</p>
-              <p>11 000 $</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-6" style="margin-top: 20px">
-          <div class="card">
-            <img
-              src="@/assets/brunviolet.jpg"
-              class="card-img-top"
-              style="margin: auto"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Brun violet et rouge</h5>
-              <p class="card-text">Serge Poliakoff</p>
-              <p>75 000 $</p>
-            </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-12 col-12">
+          <card v-for="karte in filteredCards" :key="karte.id" :slika="karte" />
+
+          <div class="col-md-3">
+            <div class="col-md-4 tag-container"></div>
           </div>
         </div>
       </div>
     </div>
+
     <footerapp />
   </div>
 </template>
-
-<script>
-// @ is an alias to /src
-import navbarbuyer from "@/components/navbarbuyer.vue";
-import footerapp from "@/components/footerapp.vue";
-
-export default {
-  name: "Paintings",
-  components: {
-    navbarbuyer,
-    footerapp,
-  },
-};
-</script>
 
 <style>
 .card-img-top {
@@ -130,6 +42,94 @@ export default {
   object-fit: contain;
 }
 .card {
-  height: calc(100vh / 1.7);
+  height: calc(100vh / 1);
+}
+</style>
+
+<script>
+import navbarbuyer from "@/components/navbarbuyer.vue";
+import footerapp from "@/components/footerapp.vue";
+import card from "@/components/card.vue";
+import store from "@/store.js";
+import { db } from "@/firebase.js";
+
+export default {
+  name: "Cards",
+
+  data() {
+    return {
+      proizvod: [],
+      store,
+      newImageUrl: "",
+      newnaziv: "",
+      newproizvodac: "",
+      newcijena: "",
+      duedate: "",
+      starting: "",
+      imageReference: null,
+
+      productdesc: "",
+    };
+  },
+  mounted() {
+    this.getPosts();
+  },
+  methods: {
+    getPosts() {
+      console.log("firebase dohvat");
+      db.collection("proizvodi")
+        .orderBy("posted_at", "desc")
+        .get()
+        .then((query) => {
+          this.proizvod = [];
+          query.forEach((doc) => {
+            const data = doc.data();
+            if (data.typeofproduct == "Paintings")
+              this.proizvod.push({
+                id: doc.id,
+                description: data.desc,
+                typeofproduct: data.typeofproduct,
+                manufacturer: data.manufacturer,
+                price: data.price,
+                startingbidd: data.startingbidd,
+                url: data.url,
+                time: data.posted_at,
+                date: data.date,
+                productdesc: data.productdesc,
+              });
+          });
+        });
+    },
+  },
+  computed: {
+    filteredCards() {
+      let termin = this.store.searchTerm;
+      let newCards = [];
+      for (let karte of this.proizvod) {
+        if (
+          karte.description.toLowerCase().indexOf(termin.toLowerCase()) >= 0 ||
+          karte.manufacturer.toLowerCase().indexOf(termin.toLowerCase()) >= 0
+        ) {
+          newCards.push(karte);
+        }
+        console.log(newCards);
+      }
+      return newCards;
+    },
+  },
+
+  components: {
+    navbarbuyer,
+    footerapp,
+    card,
+  },
+};
+</script>
+
+<style scoped>
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

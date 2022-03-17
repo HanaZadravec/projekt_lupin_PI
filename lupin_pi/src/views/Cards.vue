@@ -15,79 +15,6 @@
           >
             <b>Cards</b>
           </h1>
-          <form
-            v-if="!loading"
-            @submit.prevent="postNew()"
-            class="form-inline mb-5"
-          >
-            <croppa
-              :width="250"
-              :height="250"
-              v-model="imageReference"
-              placeholder="upload image"
-            ></croppa>
-            <label for="newnaziv">Name:</label>
-            <input
-              v-model="newnaziv"
-              class="form-control me-2"
-              type="text"
-              id="newnaziv"
-              style="margin-top: 5px"
-            />
-            <label for="newproizvodac">Manufacturer</label>
-            <input
-              v-model="newproizvodac"
-              class="form-control me-2"
-              type="text"
-              id="newproizvodac"
-              style="margin-top: 5px"
-            />
-            <label for="newcijena">Price</label>
-            <input
-              v-model="newcijena"
-              class="form-control me-2"
-              type="number"
-              id="newcijena"
-              style="margin-top: 5px"
-            />
-            <label for="duedate">Due date</label>
-            <input
-              v-model="duedate"
-              class="form-control me-2"
-              type="text"
-              id="duedate"
-              style="margin-top: 5px"
-            />
-            <label for="startingbidd">Starting bid</label>
-            <input
-              v-model="starting"
-              class="form-control me-2"
-              type="number"
-              id="startingbidd"
-              style="margin-top: 5px"
-            />
-
-            <label for="desc">Product description</label>
-            <textarea
-              v-model="productdesc"
-              class="form-control me-2"
-              type="text"
-              id="desc"
-              style="margin-top: 5px"
-            ></textarea>
-            <button
-              class="btn btn-outline-dark center"
-              type="submit"
-              style="height: 40px; margin-top: 5px; width: 70px"
-            >
-              Post
-            </button>
-          </form>
-          <img
-            class="loading center"
-            v-if="loading"
-            :src="require('@/assets/loading.gif')"
-          />
         </div>
       </div>
     </div>
@@ -124,7 +51,7 @@ import navbarbuyer from "@/components/navbarbuyer.vue";
 import footerapp from "@/components/footerapp.vue";
 import card from "@/components/card.vue";
 import store from "@/store.js";
-import { db, storage } from "@/firebase.js";
+import { db } from "@/firebase.js";
 
 export default {
   name: "Cards",
@@ -157,67 +84,21 @@ export default {
           this.proizvod = [];
           query.forEach((doc) => {
             const data = doc.data();
-            this.proizvod.push({
-              id: doc.id,
-              description: data.desc,
-              email: data.email,
-              manufacturer: data.manufacturer,
-              price: data.price,
-              startingbidd: data.startingbidd,
-              url: data.url,
-              time: data.posted_at,
-              date: data.date,
-              productdesc: data.productdesc,
-            });
+            if (data.typeofproduct == "Cards")
+              this.proizvod.push({
+                id: doc.id,
+                description: data.desc,
+                typeofproduct: data.typeofproduct,
+                manufacturer: data.manufacturer,
+                price: data.price,
+                startingbidd: data.startingbidd,
+                url: data.url,
+                time: data.posted_at,
+                date: data.date,
+                productdesc: data.productdesc,
+              });
           });
         });
-    },
-    getImage() {
-      return new Promise((resolveFn, errorFn) => {
-        this.imageReference.generateBlob((data) => {
-          resolveFn(data);
-        });
-      });
-    },
-    async postNew() {
-      try {
-        this.loading = true;
-        let blobData = await this.getImage();
-        let imageName =
-          "posts/" + store.currentUser + "/" + Date.now() + ".png";
-        let result = await storage.ref(imageName).put(blobData);
-        let url = await result.ref.getDownloadURL();
-
-        const imagenaziv = this.newnaziv;
-        const imageproizvodac = this.newproizvodac;
-        const imagecijena = this.newcijena;
-        const startingbidd = this.starting;
-        const product = this.productdesc;
-        let doc = await db.collection("proizvodi").add({
-          url: url,
-          desc: imagenaziv,
-          manufacturer: imageproizvodac,
-          price: imagecijena,
-          startingbidd: startingbidd,
-          email: store.currentUser,
-          posted_at: Date.now(),
-          date: new Date(this.duedate).getTime(),
-          productdesc: product,
-        });
-        console.log("Spremljeno", doc);
-
-        this.getPosts();
-      } catch (e) {
-        console.error("Greška", e);
-      }
-      this.newImageUrl = "";
-      this.newnaziv = "";
-      this.newproizvodac = "";
-      this.newcijena = "";
-      this.duedate = "";
-      this.loading = false;
-      this.starting = "";
-      this.productdesc = "";
     },
   },
   computed: {
