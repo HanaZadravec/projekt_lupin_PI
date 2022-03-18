@@ -124,6 +124,193 @@
             v-if="loading"
             :src="require('@/assets/loading.gif')"
           />
+          <hr style="border: 0.5px solid black" />
+          <h1
+            style="
+              margin-top: 15px;
+              margin-bottom: 20px;
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 50px;
+            "
+          >
+            <b>Edit auctions</b>
+          </h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Modify</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="products in proizvod" :key="products.id">
+                <td>{{ products.description }}</td>
+                <td>{{ products.price }}</td>
+                <td>
+                  <button
+                    @click="editProduct(products)"
+                    class="btn btn-dark"
+                    style="margin-right: 7px"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    @click="deleteProduct(products.id)"
+                    class="btn btn-dark"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h1
+            style="
+              margin-top: 15px;
+              margin-bottom: 20px;
+              font-family: Arial, Helvetica, sans-serif;
+              font-size: 50px;
+            "
+          >
+            <b>Orders</b>
+          </h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Modify</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="narudzba in orders" :key="narudzba.id">
+                <td>{{ narudzba.user }}</td>
+                <td>{{ narudzba.address }}</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="edit"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit product</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label for="newnaziv" style="margin-top: 15px" class="center"
+              >Name:</label
+            >
+            <input
+              v-model="newnaziv"
+              class="form-control me-2 center"
+              type="text"
+              id="newnaziv"
+              style="margin-top: 15px"
+            />
+            <label for="typeofproducts" style="margin-top: 15px" class="center"
+              >Type of product</label
+            >
+            <select
+              v-model="typeproduct"
+              class="form-select center"
+              aria-label="Default select example"
+              style="margin-top: 7px; border-radius: 5px"
+              id="typeodproduct"
+            >
+              <option value="Cards">Cards</option>
+              <option value="Books">Books</option>
+              <option value="Coins">Coins</option>
+              <option value="Comics">Comics</option>
+              <option value="Maps">Maps</option>
+              <option value="Paintings">Paintings</option>
+              <option value="Productssignedbycelebrities">
+                Products signed by celebrities
+              </option>
+              <option value="Raresignatures">Rare signatures</option>
+              <option value="Sculptures">Sculptures</option>
+            </select>
+            <label for="newproizvodac" style="margin-top: 15px" class="center"
+              >Manufacturer</label
+            >
+            <input
+              v-model="newproizvodac"
+              class="form-control me-2 center"
+              type="text"
+              id="newproizvodac"
+              style="margin-top: 15px"
+            />
+            <label for="newcijena" style="margin-top: 15px" class="center"
+              >Price</label
+            >
+            <input
+              v-model="newcijena"
+              class="form-control me-2 center"
+              type="number"
+              id="newcijena"
+              style="margin-top: 15px"
+            />
+            <label for="duedate" style="margin-top: 15px" class="center"
+              >Due date</label
+            >
+            <input
+              v-model="duedate"
+              class="form-control me-2 center"
+              type="text"
+              id="duedate"
+              style="margin-top: 15px"
+            />
+            <label for="startingbidd" style="margin-top: 15px" class="center"
+              >Starting bid</label
+            >
+            <input
+              v-model="starting"
+              class="form-control me-2 center"
+              type="number"
+              id="startingbidd"
+              style="margin-top: 15px"
+            />
+
+            <label for="desc" style="margin-top: 15px" class="center"
+              >Product description</label
+            >
+            <textarea
+              v-model="productdesc"
+              class="form-control me-2 center"
+              type="text"
+              id="desc"
+              style="margin-top: 15px"
+            ></textarea>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -176,9 +363,50 @@ export default {
           });
         });
     },
-    //dohvacanje kategorije proizvoda
+    //brisanje proizvoda
+    deleteProduct(doc) {
+      if (confirm("Are you sure?")) {
+        db.collection("proizvodi")
+          .doc(doc)
+          .delete()
+          .then(() => {
+            console.log("Document successfully deleted!");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+      window.location.reload();
+    },
     //dohvacanje proizvoda
+    getPosts() {
+      console.log("firebase dohvat");
+      db.collection("proizvodi")
+        .orderBy("posted_at", "desc")
+        .get()
+        .then((query) => {
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.proizvod.push({
+              id: doc.id,
+              description: data.desc,
+              typeofproduct: data.typeofproduct,
+              manufacturer: data.manufacturer,
+              price: data.price,
+              startingbidd: data.startingbidd,
+              url: data.url,
+              time: data.posted_at,
+              date: data.date,
+              productdesc: data.productdesc,
+            });
+          });
+        });
+    },
     //uređivanje proizvoda
+    editProduct() {
+      $("#edit").modal("show");
+    },
     //objavljivanje proizvoda
     getImage() {
       return new Promise((resolveFn, errorFn) => {
@@ -226,10 +454,12 @@ export default {
       this.starting = "";
       this.productdesc = "";
       this.typeproduct = "";
+      window.location.reload();
     },
   },
   mounted() {
     this.getOrders();
+    this.getPosts();
   },
 };
 </script>

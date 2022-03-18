@@ -67,7 +67,7 @@ export default {
       duedate: "",
       starting: "",
       imageReference: null,
-      loading: false,
+
       productdesc: "",
     };
   },

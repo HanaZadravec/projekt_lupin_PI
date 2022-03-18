@@ -180,7 +180,6 @@ export default {
           });
         });
     },
-
     async spremiOrder() {
       try {
         let data = this.$store.state.cart.map((item) => ({
@@ -199,6 +198,7 @@ export default {
           zipcode: this.zipcode,
           payment: this.payment,
           mobile: this.mobile,
+          totalprice: this.$store.getters.totalprice,
         });
         console.log("Spremljeno", doc);
         alert("Order confirmed");
