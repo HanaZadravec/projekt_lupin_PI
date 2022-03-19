@@ -31,9 +31,9 @@
         </div>
         <div class="col-md-4 col-4">
           <h2>Social Media</h2>
-          <a href="#">Instagram</a> <br />
-          <a href="#">Facebook</a> <br />
-          <a href="#">Twitter</a>
+          <a href="https://www.instagram.com">Instagram</a> <br />
+          <a href="https://www.facebook.com">Facebook</a> <br />
+          <a href="https://twitter.com">Twitter</a>
         </div>
       </div>
     </div>

@@ -193,6 +193,15 @@ const routes = [
     },
   },
   {
+    path: "/orders",
+    name: "Orders",
+    component: () =>
+      import(/* webpackChunkName: "Sponsors" */ "../views/orders.vue"),
+    meta: {
+      needsUser: true,
+    },
+  },
+  {
     path: "/admin",
     name: "Admin",
     component: () =>

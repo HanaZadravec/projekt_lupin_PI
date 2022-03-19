@@ -53,16 +53,6 @@
               <a class="dropdown-item" href="/cards">Cards</a>
             </div>
           </li>
-
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              @click.prevent="logout()"
-              style="color: black"
-              >Logout</a
-            >
-          </li>
         </ul>
         <form class="d-flex">
           <input
@@ -113,16 +103,6 @@ export default {
     return {
       store: store,
     };
-  },
-  methods: {
-    logout() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.push({ name: "Login" });
-        });
-    },
   },
 };
 </script>

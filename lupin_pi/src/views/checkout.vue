@@ -198,7 +198,7 @@ export default {
           zipcode: this.zipcode,
           payment: this.payment,
           mobile: this.mobile,
-          totalprice: this.$store.getters.totalprice,
+          totalprice: this.$store.getters.totalPrice,
         });
         console.log("Spremljeno", doc);
         alert("Order confirmed");

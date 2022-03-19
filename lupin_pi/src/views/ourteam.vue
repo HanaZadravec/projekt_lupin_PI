@@ -8,7 +8,7 @@
           Our team
         </h1>
       </div>
-      <div class="col-md-6" style="margin-top: 40px">
+      <div class="col-md-12" style="margin-top: 40px">
         <img
           src="@/assets/hana.jpg"
           style="border-radius: 50%; width: 300px; height: 300px"
@@ -19,7 +19,17 @@
         </p>
         <p style="text-align: center; font-size: 16px">CEO & Founder</p>
       </div>
-      <div class="col-md-6"></div>
+      <div class="col-md-12" style="margin-top: 40px">
+        <img
+          src="@/assets/matija.jpg"
+          style="border-radius: 50%; width: 300px; height: 300px"
+          class="center"
+        />
+        <p style="margin-top: 20px; text-align: center; font-size: 20px">
+          <i><b>Matija Kelemenić</b></i>
+        </p>
+        <p style="text-align: center; font-size: 16px">CEO & Founder</p>
+      </div>
       <div class="col-md-12" style="margin-top: 60px">
         <img
           src="@/assets/strucnjakantikviteta.jpeg"
@@ -41,7 +51,7 @@ import navbar from "@/components/navbar.vue";
 import footerapp from "@/components/footerapp.vue";
 
 export default {
-  name: "Our team",
+  name: "Ourteam",
   components: {
     navbar,
     footerapp,

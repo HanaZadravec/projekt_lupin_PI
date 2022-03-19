@@ -133,14 +133,14 @@
               font-size: 50px;
             "
           >
-            <b>Edit auctions</b>
+            <b>Delete products</b>
           </h1>
           <table class="table">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Modify</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -148,13 +148,6 @@
                 <td>{{ products.description }}</td>
                 <td>{{ products.price }}</td>
                 <td>
-                  <button
-                    @click="editProduct(products)"
-                    class="btn btn-dark"
-                    style="margin-right: 7px"
-                  >
-                    Edit
-                  </button>
                   <button
                     @click="deleteProduct(products.id)"
                     class="btn btn-dark"
@@ -173,6 +166,7 @@
               font-size: 50px;
             "
           >
+            <hr style="border: 0.5px solid black" />
             <b>Orders</b>
           </h1>
           <table class="table">
@@ -180,137 +174,25 @@
               <tr>
                 <th>Email</th>
                 <th>Address</th>
-                <th>Modify</th>
+                <th>Zipcode</th>
+                <th>Mobile number</th>
+                <th>Products</th>
+                <th>Payment</th>
+                <th>Total price</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="narudzba in orders" :key="narudzba.id">
+              <tr v-for="narudzba in orders" :key="narudzba.id[0]">
                 <td>{{ narudzba.user }}</td>
                 <td>{{ narudzba.address }}</td>
-                <td></td>
+                <td>{{ narudzba.zipcode }}</td>
+                <td>{{ narudzba.mobile }}</td>
+                <td>{{ narudzba.product }}</td>
+                <td>{{ narudzba.payment }}</td>
+                <td>{{ narudzba.totalprice }}$</td>
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-    </div>
-    <div
-      class="modal fade"
-      id="edit"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Edit product</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <label for="newnaziv" style="margin-top: 15px" class="center"
-              >Name:</label
-            >
-            <input
-              v-model="newnaziv"
-              class="form-control me-2 center"
-              type="text"
-              id="newnaziv"
-              style="margin-top: 15px"
-            />
-            <label for="typeofproducts" style="margin-top: 15px" class="center"
-              >Type of product</label
-            >
-            <select
-              v-model="typeproduct"
-              class="form-select center"
-              aria-label="Default select example"
-              style="margin-top: 7px; border-radius: 5px"
-              id="typeodproduct"
-            >
-              <option value="Cards">Cards</option>
-              <option value="Books">Books</option>
-              <option value="Coins">Coins</option>
-              <option value="Comics">Comics</option>
-              <option value="Maps">Maps</option>
-              <option value="Paintings">Paintings</option>
-              <option value="Productssignedbycelebrities">
-                Products signed by celebrities
-              </option>
-              <option value="Raresignatures">Rare signatures</option>
-              <option value="Sculptures">Sculptures</option>
-            </select>
-            <label for="newproizvodac" style="margin-top: 15px" class="center"
-              >Manufacturer</label
-            >
-            <input
-              v-model="newproizvodac"
-              class="form-control me-2 center"
-              type="text"
-              id="newproizvodac"
-              style="margin-top: 15px"
-            />
-            <label for="newcijena" style="margin-top: 15px" class="center"
-              >Price</label
-            >
-            <input
-              v-model="newcijena"
-              class="form-control me-2 center"
-              type="number"
-              id="newcijena"
-              style="margin-top: 15px"
-            />
-            <label for="duedate" style="margin-top: 15px" class="center"
-              >Due date</label
-            >
-            <input
-              v-model="duedate"
-              class="form-control me-2 center"
-              type="text"
-              id="duedate"
-              style="margin-top: 15px"
-            />
-            <label for="startingbidd" style="margin-top: 15px" class="center"
-              >Starting bid</label
-            >
-            <input
-              v-model="starting"
-              class="form-control me-2 center"
-              type="number"
-              id="startingbidd"
-              style="margin-top: 15px"
-            />
-
-            <label for="desc" style="margin-top: 15px" class="center"
-              >Product description</label
-            >
-            <textarea
-              v-model="productdesc"
-              class="form-control me-2 center"
-              type="text"
-              id="desc"
-              style="margin-top: 15px"
-            ></textarea>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -359,6 +241,7 @@ export default {
               mobile: data.mobile,
               shipping: data.shipping,
               payment: data.payment,
+              totalprice: data.totalprice,
             });
           });
         });
@@ -403,10 +286,6 @@ export default {
           });
         });
     },
-    //uređivanje proizvoda
-    editProduct() {
-      $("#edit").modal("show");
-    },
     //objavljivanje proizvoda
     getImage() {
       return new Promise((resolveFn, errorFn) => {
@@ -416,45 +295,55 @@ export default {
       });
     },
     async postNew() {
-      try {
-        this.loading = true;
-        let blobData = await this.getImage();
-        let imageName =
-          "posts/" + store.currentUser + "/" + Date.now() + ".png";
-        let result = await storage.ref(imageName).put(blobData);
-        let url = await result.ref.getDownloadURL();
+      if (
+        confirm("Are you sure? Please check if all the information is right!")
+      ) {
+        if (this.starting < this.newcijena) {
+          try {
+            this.loading = true;
+            let blobData = await this.getImage();
+            let imageName =
+              "posts/" + store.currentUser + "/" + Date.now() + ".png";
+            let result = await storage.ref(imageName).put(blobData);
+            let url = await result.ref.getDownloadURL();
 
-        const imagenaziv = this.newnaziv;
-        const imageproizvodac = this.newproizvodac;
-        const imagecijena = this.newcijena;
-        const startingbidd = this.starting;
-        const product = this.productdesc;
-        const typeofproduct = this.typeproduct;
-        let doc = await db.collection("proizvodi").add({
-          url: url,
-          desc: imagenaziv,
-          manufacturer: imageproizvodac,
-          price: imagecijena,
-          startingbidd: startingbidd,
-          posted_at: Date.now(),
-          date: new Date(this.duedate).getTime(),
-          productdesc: product,
-          typeofproduct: typeofproduct,
-        });
-        console.log("Spremljeno", doc);
-      } catch (e) {
-        console.error("Greška", e);
+            const imagenaziv = this.newnaziv;
+            const imageproizvodac = this.newproizvodac;
+            const imagecijena = this.newcijena;
+            const startingbidd = this.starting;
+            const product = this.productdesc;
+            const typeofproduct = this.typeproduct;
+
+            let doc = await db.collection("proizvodi").add({
+              url: url,
+              desc: imagenaziv,
+              manufacturer: imageproizvodac,
+              price: imagecijena,
+              startingbidd: startingbidd,
+              posted_at: Date.now(),
+              date: new Date(this.duedate).getTime(),
+              productdesc: product,
+              typeofproduct: typeofproduct,
+            });
+            console.log("Spremljeno", doc);
+          } catch (e) {
+            console.error("Greška", e);
+          }
+
+          this.newImageUrl = "";
+          this.newnaziv = "";
+          this.newproizvodac = "";
+          this.newcijena = "";
+          this.duedate = "";
+          this.loading = false;
+          this.starting = "";
+          this.productdesc = "";
+          this.typeproduct = "";
+          window.location.reload();
+        } else {
+          alert("Starting bidd can't be bigger than buy now price");
+        }
       }
-      this.newImageUrl = "";
-      this.newnaziv = "";
-      this.newproizvodac = "";
-      this.newcijena = "";
-      this.duedate = "";
-      this.loading = false;
-      this.starting = "";
-      this.productdesc = "";
-      this.typeproduct = "";
-      window.location.reload();
     },
   },
   mounted() {

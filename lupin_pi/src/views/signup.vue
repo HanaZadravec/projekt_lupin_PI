@@ -144,6 +144,9 @@ export default {
       ) {
         alert("You didn't fill out everything");
       }
+      if (this.password.length < 6) {
+        alert("Password should be at least 6 charachters long!");
+      }
     },
     async createUser() {
       try {
