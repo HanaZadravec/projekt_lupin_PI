@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "AddToCart",
+  name: "buyNow",
   props: {
     name: String,
     price: String,

@@ -52,7 +52,7 @@
 import navbar from "@/components/navbar.vue";
 import footerapp from "@/components/footerapp.vue";
 export default {
-  name: "Our story",
+  name: "Ourstory",
   components: {
     navbar,
     footerapp,

@@ -121,7 +121,7 @@ import navbar from "@/components/navbar.vue";
 import footerapp from "@/components/footerapp.vue";
 
 export default {
-  name: "Terms of service",
+  name: "TermsOfService",
   components: {
     navbar,
     footerapp,

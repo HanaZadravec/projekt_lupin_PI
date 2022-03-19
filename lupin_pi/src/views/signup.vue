@@ -102,7 +102,6 @@ export default {
       email: "",
       name: "",
       surname: "",
-
       password: "",
       confirmpass: "",
     };

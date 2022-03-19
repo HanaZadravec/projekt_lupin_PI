@@ -54,8 +54,7 @@ import store from "@/store.js";
 import { db } from "@/firebase.js";
 
 export default {
-  name: "Cards",
-
+  name: "Books",
   data() {
     return {
       proizvod: [],

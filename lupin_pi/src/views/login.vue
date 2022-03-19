@@ -98,26 +98,6 @@
   </div>
 </template>
 
-<style scoped>
-.slika_centrirano {
-  display: flex;
-  justify-content: center;
-}
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 40%;
-}
-.boja {
-  background-color: #ebebeb;
-}
-
-label {
-  font-size: 20px;
-}
-</style>
-
 <script>
 import { firebase } from "@/firebase.js";
 export default {
@@ -151,3 +131,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.slika_centrirano {
+  display: flex;
+  justify-content: center;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+.boja {
+  background-color: #ebebeb;
+}
+
+label {
+  font-size: 20px;
+}
+</style>

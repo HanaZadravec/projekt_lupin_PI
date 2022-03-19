@@ -53,6 +53,15 @@
               <a class="dropdown-item" href="/cards">Cards</a>
             </div>
           </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              @click.prevent="logout()"
+              style="color: black"
+              >Logout</a
+            >
+          </li>
         </ul>
         <form class="d-flex">
           <input
@@ -98,7 +107,16 @@ export default {
     card,
     miniCart,
   },
-
+  methods: {
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace({ name: "Login" });
+        });
+    },
+  },
   data() {
     return {
       store: store,

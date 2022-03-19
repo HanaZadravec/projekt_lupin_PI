@@ -22,45 +22,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="/" style="color: black">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              style="color: black"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Products
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/paintings">Paintings</a>
-              <a class="dropdown-item" href="/sculptures">Sculptures</a>
-              <a class="dropdown-item" href="/comics">Comics</a>
-              <a class="dropdown-item" href="/books">Books</a>
-              <a class="dropdown-item" href="/coins">Coins</a>
-              <a class="dropdown-item" href="/maps">Maps</a>
-              <a class="dropdown-item" href="/raresignatures"
-                >Rare signatures</a
-              >
-              <a class="dropdown-item" href="/productssignedbycelebrities"
-                >Products signed by celebrities</a
-              >
-              <a class="dropdown-item" href="/cards">Cards</a>
-            </div>
-          </li>
-
-          <li class="nav-item">
             <a
               class="nav-link"
               href="#"
               @click.prevent="logout()"
               style="color: black"
-              >Logout</a
+              ><b>Logout</b></a
             >
           </li>
         </ul>
@@ -90,7 +57,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          this.$router.push({ name: "Login" });
+          this.$router.replace({ name: "Login" });
         });
     },
   },

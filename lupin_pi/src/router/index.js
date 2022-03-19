@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-
+import store from "@/store.js";
 Vue.use(VueRouter);
 
 const routes = [
@@ -206,6 +206,9 @@ const routes = [
     name: "Admin",
     component: () =>
       import(/* webpackChunkName: "Sponsors" */ "../views/admin.vue"),
+    meta: {
+      needsUser: true,
+    },
   },
 ];
 
@@ -213,6 +216,22 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+router.beforeEach((to, from, next) => {
+  console.log(
+    "Bio sam na",
+    from.name,
+    "idem na",
+    to.name,
+    "a korisnik je",
+    store.currentUser
+  );
+  const authenticated = store.currentUser !== null;
+  if (!authenticated && to.meta.needsAuth) {
+    next("login");
+  } else {
+    next();
+  }
 });
 
 export default router;
