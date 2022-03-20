@@ -35,17 +35,6 @@
   </div>
 </template>
 
-<style>
-.card-img-top {
-  width: 100%;
-  height: 31vh;
-  object-fit: contain;
-}
-.card {
-  height: calc(100vh / 1);
-}
-</style>
-
 <script>
 import navbarbuyer from "@/components/navbarbuyer.vue";
 import footerapp from "@/components/footerapp.vue";
@@ -54,7 +43,7 @@ import store from "@/store.js";
 import { db } from "@/firebase.js";
 
 export default {
-  name: "Cards",
+  name: "Raresignatures",
 
   data() {
     return {

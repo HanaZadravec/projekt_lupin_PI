@@ -61,7 +61,7 @@
               <option value="Sculptures">Sculptures</option>
             </select>
             <label for="newproizvodac" style="margin-top: 15px" class="center"
-              >Manufacturer</label
+              >Manufacturer/artist</label
             >
             <input
               v-model="newproizvodac"

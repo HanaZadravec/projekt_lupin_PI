@@ -5,12 +5,13 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            <h6 class="card-title">
+            <h4 class="card-title">
               {{ slika.description }}
-            </h6>
-            <p class="card-text">{{ slika.manufacturer }}</p>
-            <p>{{ slika.price }}</p>
-            <p>Naruceno!!!!</p>
+            </h4>
+            <p class="card-text" style="font-size: 19px; color: #70736b">
+              {{ slika.manufacturer }}
+            </p>
+            <p style="font-size: 19px">Naruceno!!!!</p>
           </div>
         </div>
       </div>
@@ -20,12 +21,15 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
-            <h6 class="card-title">
+            <h5 class="card-title">
               {{ slika.description }}
-            </h6>
-            <p class="card-text">{{ slika.manufacturer }}</p>
-            <p>{{ slika.price }}</p>
-            <p>Pocetni bidd : {{ slika.startingbidd }}</p>
+            </h5>
+            <p class="card-text" style="font-size: 19px; color: #70736b">
+              {{ slika.manufacturer }}
+            </p>
+            <p style="font-size: 18px">
+              <b>Starting bidd :</b> {{ slika.startingbidd }}$
+            </p>
           </div>
           <div class="col-md-6">
             <span style="font-size: 130%; margin-right: 15px"
@@ -58,7 +62,7 @@
             </div>
             <div style="font-size: 130%; margin-right: 15px">
               <b>Buy now price:</b>
-              {{ slika.price }}
+              {{ slika.price }}$
             </div>
             <buyNow
               v-if="this.done"
@@ -112,6 +116,77 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="
+        store.currentUser == 'admin@gmail.com' &&
+        this.usporedba() != true &&
+        this.done == true
+      "
+      class="card"
+    >
+      <img :src="slika.url" class="card-img-top" style="margin: auto" />
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h5 class="card-title">
+              {{ slika.description }}
+            </h5>
+            <p class="card-text" style="font-size: 19px; color: #70736b">
+              {{ slika.manufacturer }}
+            </p>
+            <p style="font-size: 18px">
+              <b>Starting bidd :</b> {{ slika.startingbidd }}$
+            </p>
+          </div>
+          <div class="col-md-6">
+            <span style="font-size: 130%; margin-right: 15px"
+              ><b>Time remaining:</b></span
+            >
+            <vue-countdown-timer
+              @end_callback="endCallBack()"
+              :start-time="new Date().getTime()"
+              :end-time="this.slika.date"
+              :interval="1000"
+              :end-text="'Auction is over!'"
+              :seconds-txt="'seconds'"
+              :minutes-txt="'minutes'"
+              :day-txt="'days'"
+              :hour-txt="'hours'"
+              style="display: inline-block; font-size: 110%"
+            >
+            </vue-countdown-timer>
+            <div style="margin-right: 15px">
+              <b style="font-size: 130%">Best offer:</b>
+              <span
+                style="margin-left: 8px"
+                class="card-text"
+                v-for="data in this.offers"
+                :key="data.id"
+              >
+                <b>{{ data.offer }} $</b>
+                {{ data.email }}
+              </span>
+            </div>
+            <div style="font-size: 130%; margin-right: 15px">
+              <b>Buy now price:</b>
+              {{ slika.price }}$
+            </div>
+          </div>
+
+          <div
+            class="col-md-12"
+            style="
+              border-style: solid;
+              border-width: 2px;
+              border-color: black;
+              margin-top: 75px;
+            "
+          >
+            {{ slika.productdesc }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -136,8 +211,8 @@ export default {
       maxuser: "",
       winner: false,
       done: true,
-      ordered: null,
       orders: [],
+      store,
     };
   },
 
@@ -249,5 +324,10 @@ export default {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+.card-img-top {
+  width: 50%;
+  height: 31vh;
+  object-fit: contain;
 }
 </style>

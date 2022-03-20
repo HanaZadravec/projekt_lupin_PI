@@ -4,13 +4,14 @@
     <div class="container mt-2 pt-2">
       <div class="row">
         <div class="col-md-9">
-          <h4 class="py-4" style="font-family: Arial, Helvetica, sans-serif">
+          <h1 class="py-4" style="font-family: Arial, Helvetica, sans-serif">
             <b>Checkout page</b>
-          </h4>
+          </h1>
           <div class="col-lg-12" v-if="this.$store.state.cart.length == 0">
             <img
               class="center"
               src="https://sethisbakery.com/assets/website/images/empty-cart.png"
+              style="width: 100%"
             />
           </div>
           <div v-for="item in this.$store.state.cart" :key="item.id">
@@ -33,7 +34,9 @@
           </div>
         </div>
         <div class="col-md-3" v-if="!this.$store.state.cart.length == 0">
-          <p>Total price {{ this.$store.getters.totalPrice }} $</p>
+          <p style="font-size: 20px">
+            Total price : {{ this.$store.getters.totalPrice }}$
+          </p>
           <form class="form-inline">
             <div class="center">
               <label for="shipping_type" style="font-size: 18px"
@@ -76,19 +79,29 @@
                         <div class="icons" style="margin-left: 10px">
                           <img
                             src="https://img.icons8.com/color/48/000000/visa.png"
+                            style="width: 100%"
                           />
                         </div>
                       </div>
                       <form>
                         <span>Cardholder's name:</span>
-                        <input placeholder="Linda Williams" /> <br />
+                        <input
+                          v-model="cardholder"
+                          placeholder="Linda Williams"
+                        />
+                        <br />
                         <span>Card Number:</span>
-                        <input placeholder="0125 6780 4567 9909" /><br />
+                        <input
+                          v-model="number"
+                          placeholder="0125 6780 4567 9909"
+                        /><br />
                         <div>
                           <span>Expiry date:</span>
-                          <input placeholder="YY/MM" />
+                          <input v-model="expirydate" placeholder="YY/MM" />
                         </div>
-                        <div><span>CVV:</span> <input id="cvv" /></div>
+                        <div>
+                          <span>CVV:</span> <input v-model="cvv" id="cvv" />
+                        </div>
                       </form>
                     </div>
                   </div>
@@ -134,7 +147,7 @@
           </button>
         </div>
         <div class="col-md-3" v-else>
-          <p>Total price: 0$</p>
+          <p style="font-size: 20px">Total price: 0$</p>
         </div>
       </div>
     </div>
@@ -158,6 +171,10 @@ export default {
       zipcode: "",
       useremail: "",
       orders: [],
+      cardholder: "",
+      number: "",
+      cvv: "",
+      expirydate: "",
     };
   },
   components: {
@@ -181,31 +198,51 @@ export default {
         });
     },
     async spremiOrder() {
-      try {
-        let data = this.$store.state.cart.map((item) => ({
-          id: item.productId,
-          name: item.productName,
-        }));
-        let name = data.map((data) => data.name);
-        let id = data.map((data) => data.id);
-        console.log(data);
-        let doc = await db.collection("orders").add({
-          id: id,
-          product: name,
-          user: store.currentUser,
-          shipping: this.shipping,
-          address: this.address,
-          zipcode: this.zipcode,
-          payment: this.payment,
-          mobile: this.mobile,
-          totalprice: this.$store.getters.totalPrice,
-        });
-        console.log("Spremljeno", doc);
-        alert("Order confirmed");
-        window.location.reload();
-        localStorage.clear();
-      } catch (e) {
-        console.error("Greška", e);
+      if (
+        this.shipping == "" ||
+        this.address == "" ||
+        this.zipcode == "" ||
+        this.payment == "" ||
+        this.mobile == ""
+      ) {
+        alert("You didn't fill out everything");
+        if (this.payment == "debit") {
+          if (
+            this.cardholder == "" ||
+            this.cvv == "" ||
+            this.expirydate == "" ||
+            this.number == ""
+          ) {
+            alert("You didn't fill out every information about debit card!");
+          }
+        }
+      } else {
+        try {
+          let data = this.$store.state.cart.map((item) => ({
+            id: item.productId,
+            name: item.productName,
+          }));
+          let name = data.map((data) => data.name);
+          let id = data.map((data) => data.id);
+          console.log(data);
+          let doc = await db.collection("orders").add({
+            id: id,
+            product: name,
+            user: store.currentUser,
+            shipping: this.shipping,
+            address: this.address,
+            zipcode: this.zipcode,
+            payment: this.payment,
+            mobile: this.mobile,
+            totalprice: this.$store.getters.totalPrice,
+          });
+          console.log("Spremljeno", doc);
+          alert("Order confirmed");
+          window.location.reload();
+          localStorage.clear();
+        } catch (e) {
+          console.error("Greška", e);
+        }
       }
     },
   },

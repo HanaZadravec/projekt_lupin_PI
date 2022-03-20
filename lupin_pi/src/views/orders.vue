@@ -21,14 +21,13 @@
           <menumyprofile />
         </div>
         <div class="col-md-1 vl"></div>
-        <div v-if="user() == true">
+        <div v-if="this.orders.length > 0">
           <table class="table">
             <thead>
               <tr>
                 <th>Address</th>
                 <th>Zipcode</th>
                 <th>Products</th>
-                <th>Payment</th>
                 <th>Total price</th>
               </tr>
             </thead>
@@ -37,7 +36,6 @@
                 <td>{{ narudzba.address }}</td>
                 <td>{{ narudzba.zipcode }}</td>
                 <td>{{ narudzba.product }}</td>
-                <td>{{ narudzba.payment }}</td>
                 <td>{{ narudzba.totalprice }}$</td>
               </tr>
             </tbody>
@@ -106,7 +104,6 @@ export default {
   data() {
     return {
       orders: [],
-      ordersuser: null,
     };
   },
   methods: {
@@ -125,24 +122,25 @@ export default {
         .then((query) => {
           query.forEach((doc) => {
             const data = doc.data();
-            this.orders.push({
-              id: data.id,
-              user: data.user,
-              product: data.product,
-              address: data.address,
-              zipcode: data.zipcode,
-              mobile: data.mobile,
-              shipping: data.shipping,
-              payment: data.payment,
-              totalprice: data.totalprice,
-            });
+            if (store.currentUser == data.user) {
+              this.orders.push({
+                id: data.id,
+                user: data.user,
+                product: data.product,
+                address: data.address,
+                zipcode: data.zipcode,
+                mobile: data.mobile,
+                shipping: data.shipping,
+                payment: data.payment,
+                totalprice: data.totalprice,
+              });
+            }
           });
         });
     },
   },
   mounted() {
     this.getOrders();
-    this.user();
   },
 };
 </script>

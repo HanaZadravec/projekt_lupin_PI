@@ -73,7 +73,9 @@
             style="margin-top: 7px"
           />
           <miniCart />
+
           <a
+            v-if="store.currentUser != 'admin@gmail.com'"
             class="btn btn-dark nav-link w-50"
             style="margin-left: 20px; border-radius: 12px"
             data-toggle="modal"
@@ -83,7 +85,19 @@
               ({{ this.$store.state.cart.length }})</i
             >
           </a>
-          <a href="/changepass" style="text-decoration: none; margin-top: 3px"
+          <a
+            v-if="store.currentUser != 'admin@gmail.com'"
+            href="/changepass"
+            style="text-decoration: none; margin-top: 3px"
+            ><i
+              class="fas fa-user-circle nav-link fa-2x"
+              style="color: black"
+            ></i
+          ></a>
+          <a
+            v-if="store.currentUser == 'admin@gmail.com'"
+            href="/admin"
+            style="text-decoration: none; margin-top: 3px"
             ><i
               class="fas fa-user-circle nav-link fa-2x"
               style="color: black"
