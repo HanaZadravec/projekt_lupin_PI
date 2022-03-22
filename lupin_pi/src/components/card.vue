@@ -11,7 +11,7 @@
             <p class="card-text" style="font-size: 19px; color: #70736b">
               {{ slika.manufacturer }}
             </p>
-            <p style="font-size: 19px">Naruceno!!!!</p>
+            <p style="font-size: 19px">Ordered!!!!</p>
           </div>
         </div>
       </div>
@@ -65,7 +65,9 @@
               {{ slika.price }}$
             </div>
             <buyNow
-              v-if="this.done"
+              v-if="
+                this.done && Number(this.maxbidd) < Number(this.slika.price)
+              "
               :name="this.slika.description"
               :price="this.slika.price"
               :id="this.slika.time"
@@ -134,9 +136,9 @@ export default {
   },
   data() {
     return {
-      cijena: "",
+      cijena: null,
       offers: [],
-      maxbidd: "",
+      maxbidd: null,
       maxuser: "",
       winner: false,
       done: true,
@@ -194,8 +196,8 @@ export default {
 
       try {
         if (
-          this.cijena > this.slika.startingbidd &&
-          this.cijena > this.maxbidd
+          Number(this.cijena) > Number(this.slika.startingbidd) &&
+          Number(this.cijena) > Number(this.maxbidd)
         ) {
           let doc = await db
             .collection("proizvodi")
@@ -203,14 +205,17 @@ export default {
             .collection("offers")
             .add({
               user: store.currentUser,
-              offer: this.cijena,
+              offer: Number(this.cijena),
             });
           console.log("Spremljeno", doc);
 
           this.getOffers();
         } else {
           console.log("premali offer");
-          alert("premali offer");
+          alert("premali offer" + this.maxbidd + this.slika.startingbidd);
+          console.log(typeof this.cijena);
+          console.log(typeof this.maxbidd);
+          console.log(typeof this.slika.startingbidd);
           console.log(this.maxuser);
         }
       } catch (e) {
@@ -231,10 +236,10 @@ export default {
           query.forEach((doc) => {
             const data = doc.data();
             this.maxuser = data.user;
-            this.maxbidd = data.offer;
+            this.maxbidd = Number(data.offer);
             console.log(this.maxuser);
             this.offers.push({
-              offer: data.offer,
+              offer: Number(data.offer),
               email: data.user,
             });
           });

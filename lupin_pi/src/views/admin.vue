@@ -254,12 +254,12 @@ export default {
           .delete()
           .then(() => {
             console.log("Document successfully deleted!");
+            window.location.reload();
           })
           .catch((error) => {
             console.error(error);
           });
       }
-      window.location.reload();
     },
     //dohvacanje proizvoda
     getPosts() {
@@ -270,7 +270,6 @@ export default {
         .then((query) => {
           query.forEach((doc) => {
             const data = doc.data();
-
             this.proizvod.push({
               id: doc.id,
               description: data.desc,
@@ -298,7 +297,7 @@ export default {
       if (
         confirm("Are you sure? Please check if all the information is right!")
       ) {
-        if (this.starting < this.newcijena) {
+        if (Number(this.starting) < Number(this.newcijena)) {
           try {
             this.loading = true;
             let blobData = await this.getImage();

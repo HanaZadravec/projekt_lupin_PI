@@ -206,6 +206,9 @@ const routes = [
     name: "Admin",
     component: () =>
       import(/* webpackChunkName: "Sponsors" */ "../views/admin.vue"),
+    meta: {
+      needsUser: true,
+    },
   },
 ];
 

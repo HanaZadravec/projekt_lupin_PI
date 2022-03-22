@@ -13,7 +13,7 @@
               font-size: 55px;
             "
           >
-            <b>Books</b>
+            <b>Paintings</b>
           </h1>
         </div>
       </div>
