@@ -66,7 +66,8 @@
             </div>
             <buyNow
               v-if="
-                this.done && Number(this.maxbidd) < Number(this.slika.price)
+                this.done &&
+                Number(this.maxbidd) < Number(this.slika.price) * 0.5
               "
               :name="this.slika.description"
               :price="this.slika.price"
@@ -205,18 +206,14 @@ export default {
             .collection("offers")
             .add({
               user: store.currentUser,
-              offer: Number(this.cijena),
+              offer: this.cijena,
             });
           console.log("Spremljeno", doc);
 
           this.getOffers();
         } else {
           console.log("premali offer");
-          alert("premali offer" + this.maxbidd + this.slika.startingbidd);
-          console.log(typeof this.cijena);
-          console.log(typeof this.maxbidd);
-          console.log(typeof this.slika.startingbidd);
-          console.log(this.maxuser);
+          alert("premali offer");
         }
       } catch (e) {
         console.error("Greška", e);
@@ -236,10 +233,10 @@ export default {
           query.forEach((doc) => {
             const data = doc.data();
             this.maxuser = data.user;
-            this.maxbidd = Number(data.offer);
+            this.maxbidd = data.offer;
             console.log(this.maxuser);
             this.offers.push({
-              offer: Number(data.offer),
+              offer: data.offer,
               email: data.user,
             });
           });
