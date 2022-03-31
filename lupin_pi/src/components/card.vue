@@ -165,12 +165,8 @@ export default {
         });
     },
     usporedba() {
-      for (let i = 0; i < JSON.parse(JSON.stringify(this.orders.length)); i++) {
-        for (
-          let j = 0;
-          j < JSON.parse(JSON.stringify(this.orders[i].id.length));
-          j++
-        ) {
+      for (let i = 0; i < this.orders.length; i++) {
+        for (let j = 0; j < this.orders[i].id.length; j++) {
           if (this.slika.time == this.orders[i].id[j]) {
             console.log(this.slika.time);
             return true;
@@ -213,7 +209,7 @@ export default {
           this.getOffers();
         } else {
           console.log("premali offer");
-          alert("premali offer");
+          alert("The offer is too small");
         }
       } catch (e) {
         console.error("Greška", e);

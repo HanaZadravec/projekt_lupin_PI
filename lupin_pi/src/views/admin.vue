@@ -224,7 +224,7 @@ export default {
     };
   },
   methods: {
-    // dohvacanje naruzbi
+    // dohvacanje narudzbi
     getOrders() {
       console.log("firebase dohvat narudzbi");
       db.collection("orders")
@@ -285,7 +285,6 @@ export default {
           });
         });
     },
-    //objavljivanje proizvoda
     getImage() {
       return new Promise((resolveFn, errorFn) => {
         this.imageReference.generateBlob((data) => {

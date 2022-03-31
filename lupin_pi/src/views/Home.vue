@@ -97,7 +97,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import navbar from "@/components/navbar.vue";
 import footerapp from "@/components/footerapp.vue";
 

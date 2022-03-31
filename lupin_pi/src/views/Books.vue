@@ -48,14 +48,6 @@ export default {
     return {
       proizvod: [],
       store,
-      newImageUrl: "",
-      newnaziv: "",
-      newproizvodac: "",
-      newcijena: "",
-      duedate: "",
-      starting: "",
-      imageReference: null,
-      productdesc: "",
     };
   },
   mounted() {
