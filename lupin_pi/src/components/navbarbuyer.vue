@@ -38,14 +38,20 @@
               Products
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/paintings">Paintings</a>
-              <a class="dropdown-item" href="/sculptures">Sculptures</a>
-              <a class="dropdown-item" href="/comics">Comics</a>
-              <a class="dropdown-item" href="/books">Books</a>
-              <a class="dropdown-item" href="/coins">Coins</a>
-              <a class="dropdown-item" href="/maps">Maps</a>
-              <a class="dropdown-item" href="/raresignatures"
-                >Rare signatures</a
+              <router-link class="dropdown-item" to="/paintings"
+                >Paintings</router-link
+              >
+              <router-link class="dropdown-item" to="/sculptures"
+                >Sculptures</router-link
+              >
+              <router-link class="dropdown-item" to="/comics"
+                >Comics</router-link
+              >
+              <router-link class="dropdown-item" to="/books">Books</router-link>
+              <router-link class="dropdown-item" to="/coins">Coins</router-link>
+              <router-link class="dropdown-item" to="/maps">Maps</router-link>
+              <router-link class="dropdown-item" to="/raresignatures"
+                >Rare signatures</router-link
               >
               <a class="dropdown-item" href="/productssignedbycelebrities"
                 >Products signed by celebrities</a
